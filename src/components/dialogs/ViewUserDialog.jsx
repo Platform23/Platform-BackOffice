@@ -69,7 +69,7 @@ const ViewUserDialog = ({ open, onClose, user }) => {
         </DialogContent>
 
         <DialogActions>
-            <Button onClick={onClose} color="primary" variant='outlined'>
+            <Button onClick={onClose} variant='contained' sx={{backgroundColor: '#969696'}}>
             Fermer
             </Button>
         </DialogActions>

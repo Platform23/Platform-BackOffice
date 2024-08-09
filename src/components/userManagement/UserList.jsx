@@ -4,21 +4,34 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ViewUserDialog from '../dialogs/ViewUserDialog';
+import EditUserDialog from '../dialogs/EditUserDialog';
+import DeleteUserDialog from '../dialogs/DeleteUserDialog';
 
 const UserList = ({ users, onView, onEdit, onDelete }) => {
 
     const [selectedUser, setSelectedUser] = useState(null);
-    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogType, setDialogType] = useState(null);
 
-    const handleView = (user) => {
+    const handleOpenDialog = (user, type) => {
         setSelectedUser(user);
-        setDialogOpen(true);
+        setDialogType(type);
     };
 
-    const handleDialogClose = () => {
-        setDialogOpen(false);
+    const handleCloseDialog = () => {
         setSelectedUser(null);
+        setDialogType(null);
     };
+
+    const handleSaveEdit = (updatedUser) => {
+        onEdit(updatedUser);
+        handleCloseDialog();
+    };
+
+    const handleConfirmDelete = () => {
+        onDelete(selectedUser.id);
+        handleCloseDialog();
+    };
+
 
   return (
     <TableContainer component={Paper} sx={{ maxWidth: '55%', marginLeft: 'auto', backgroundColor: '#f5f5f5'}}>
@@ -37,13 +50,13 @@ const UserList = ({ users, onView, onEdit, onDelete }) => {
               <TableCell sx={{fontSize: '18px'}}>{user.username}</TableCell>
               <TableCell sx={{fontSize: '15px', fontWeight: 'bold'}}>{user.email}</TableCell>
               <TableCell align="center">
-                <IconButton color="primary" onClick={() => handleView(user)}>
+                <IconButton color="primary" onClick={() => handleOpenDialog(user, 'view')}>
                   <VisibilityIcon />
                 </IconButton>
-                <IconButton color="secondary" onClick={() => onEdit(user.id)}>
+                <IconButton color="secondary" onClick={() => handleOpenDialog(user, 'view')}>
                   <EditIcon />
                 </IconButton>
-                <IconButton color="error" onClick={() => onDelete(user.id)}>
+                <IconButton color="error" onClick={() => handleOpenDialog(user, 'delete')}>
                   <DeleteIcon />
                 </IconButton>
               </TableCell>
@@ -51,13 +64,19 @@ const UserList = ({ users, onView, onEdit, onDelete }) => {
           ))}
         </TableBody>
       </Table>
-      {selectedUser && (
-        <ViewUserDialog
-          open={dialogOpen}
-          onClose={handleDialogClose}
-          user={selectedUser}
-        />
+      
+      {dialogType === 'view' && (
+        <ViewUserDialog open={Boolean(dialogType)} onClose={handleCloseDialog} user={selectedUser} />
       )}
+
+      {dialogType === 'edit' && (
+        <EditUserDialog open={Boolean(dialogType)} onClose={handleCloseDialog} user={selectedUser} onSave={handleSaveEdit} />
+      )}
+
+      {dialogType === 'delete' && (
+        <DeleteUserDialog open={Boolean(dialogType)} onClose={handleCloseDialog} onConfirm={handleConfirmDelete} />
+      )}  
+
     </TableContainer>
   );
 };
