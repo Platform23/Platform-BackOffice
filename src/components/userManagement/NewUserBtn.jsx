@@ -10,6 +10,7 @@ const NewUserButton = styled(Button)({
     backgroundColor: '#163d4a', // Darker shade on hover
   },
   marginLeft: 0, // Position to the left side of the screen
+  marginBottom: 40,
   alignSelf: 'flex-start',
   textTransform: 'none',
 });

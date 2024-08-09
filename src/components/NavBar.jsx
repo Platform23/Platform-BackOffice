@@ -10,7 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SideBar from './SideBar';
 import { Link } from 'react-router-dom';
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
