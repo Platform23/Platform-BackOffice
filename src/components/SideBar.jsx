@@ -24,15 +24,15 @@ import { Link } from 'react-router-dom';
 const drawerWidth = 200;
 
 const icons = [
-  <GridViewIcon />,
+  <PeopleIcon />,
   <TopicIcon />,
-  <PeopleIcon />
+  // <GridViewIcon />,
 ];
 
 const routes = [
-  '/dashboard',
+  '/users',
   '/networks',
-  '/users'
+  // '/dashboard',
 ];
 
 const openedMixin = (theme) => ({
@@ -105,7 +105,7 @@ const SideBar = ({open, setOpen}) => {
             <Divider />
 
             <List>
-                {['Tableau de bord', 'Reseaux', 'Utilisateurs'].map((text, index) => (
+                {['Utilisateurs', 'Reseaux'].map((text, index) => (
                     <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                         <ListItemButton
                           component={Link}
@@ -122,12 +122,13 @@ const SideBar = ({open, setOpen}) => {
                             minWidth: 0,
                             mr: open ? 3 : 'auto',
                             justifyContent: 'center',
+                            color: '#25434d'
                         }}
                         >
                           {icons[index]}
                         </ListItemIcon>
 
-                        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0, color: '#25434d' }} />
                       </ListItemButton>
                     </ListItem>
                 ))}

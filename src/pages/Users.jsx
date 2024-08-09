@@ -33,6 +33,8 @@ const Users = () => {
         variant="h4"
         sx={{
           marginBottom: '50px',
+          color: '#25434d',
+          fontWeight: 'bold'
         }}
       >
           Utilisateurs

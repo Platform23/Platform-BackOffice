@@ -28,6 +28,7 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
+  backgroundColor: '#25434d',
 }));
 
 export default function NavBar() {
@@ -54,15 +55,15 @@ export default function NavBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Back Office
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold'}}>
+            Platform - Tableau de bord
           </Typography>
           <Button 
             variant='text'
             color="inherit"
             component={Link}
             to="/"
-            
+            sx={{fontWeight: 'bold'}}
           >
               Deconnexion
           </Button>

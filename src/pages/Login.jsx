@@ -48,14 +48,14 @@ const Login = () => {
     const handleLogin = () => {
         // Handle authentication
         // After successful authentication, redirect to the dashboard
-        navigate('/dashboard');
+        navigate('/users');
     };
 
     return (
     <BackgroundContainer>
         <LoginBox>
         <Logo src={logo} alt="Logo" />
-        <Typography variant="h5" color={'grey'} gutterBottom>
+        <Typography variant="h5" color={'#25434d'} gutterBottom>
             Back office
         </Typography>
         <TextField
@@ -92,10 +92,10 @@ const Login = () => {
             color="primary"
             size="large"
             fullWidth
-            style={{ marginTop: '20px' }}
+            style={{ marginTop: '20px', backgroundColor:'#25434d' }}
             onClick={handleLogin}
         >
-            Login
+            Se connecter
         </Button>
 
         </LoginBox>
