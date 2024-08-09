@@ -15,17 +15,6 @@ const Users = () => {
     { id: 5, username: 'janny_doe', email: 'janny@example.com' },
   ];
   
-  const handleView = (id) => {
-    console.log(`View user with id: ${id}`);
-  };
-  
-  const handleEdit = (id) => {
-    console.log(`Edit user with id: ${id}`);
-  };
-  
-  const handleDelete = (id) => {
-    console.log(`Delete user with id: ${id}`);
-  };
   
   return (
     <Layout drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen}>
@@ -41,10 +30,7 @@ const Users = () => {
       </Typography>
       <NewUserBtn />
       <UserList 
-        users={users} 
-        onView={handleView} 
-        onEdit={handleEdit} 
-        onDelete={handleDelete} 
+        users={users}
       />
     </Layout>
 

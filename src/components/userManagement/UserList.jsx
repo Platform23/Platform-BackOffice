@@ -7,7 +7,7 @@ import ViewUserDialog from '../dialogs/ViewUserDialog';
 import EditUserDialog from '../dialogs/EditUserDialog';
 import DeleteUserDialog from '../dialogs/DeleteUserDialog';
 
-const UserList = ({ users, onView, onEdit, onDelete }) => {
+const UserList = ({ users}) => {
 
     const [selectedUser, setSelectedUser] = useState(null);
     const [dialogType, setDialogType] = useState(null);
@@ -22,13 +22,13 @@ const UserList = ({ users, onView, onEdit, onDelete }) => {
         setDialogType(null);
     };
 
-    const handleSaveEdit = (updatedUser) => {
-        onEdit(updatedUser);
-        handleCloseDialog();
+    const handleSaveEdit = () => {
+      console.log('Saved changes user' + selectedUser.id);
+      handleCloseDialog();
     };
 
     const handleConfirmDelete = () => {
-        onDelete(selectedUser.id);
+        console.log('Deleted user' + selectedUser.id);
         handleCloseDialog();
     };
 
@@ -53,7 +53,7 @@ const UserList = ({ users, onView, onEdit, onDelete }) => {
                 <IconButton color="primary" onClick={() => handleOpenDialog(user, 'view')}>
                   <VisibilityIcon />
                 </IconButton>
-                <IconButton color="secondary" onClick={() => handleOpenDialog(user, 'view')}>
+                <IconButton color="secondary" onClick={() => handleOpenDialog(user, 'edit')}>
                   <EditIcon />
                 </IconButton>
                 <IconButton color="error" onClick={() => handleOpenDialog(user, 'delete')}>
@@ -70,7 +70,7 @@ const UserList = ({ users, onView, onEdit, onDelete }) => {
       )}
 
       {dialogType === 'edit' && (
-        <EditUserDialog open={Boolean(dialogType)} onClose={handleCloseDialog} user={selectedUser} onSave={handleSaveEdit} />
+        <EditUserDialog open={Boolean(dialogType)} onClose={handleCloseDialog} user={selectedUser} onSaveEdit={handleSaveEdit}/>
       )}
 
       {dialogType === 'delete' && (

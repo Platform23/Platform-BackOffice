@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogActions,
@@ -8,16 +8,15 @@ import {
   Button,
   Grid,
 } from '@mui/material';
-import Stack from '@mui/material/Stack';
 
 
-const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
+const AddUserDialog = ({ open, onClose, onAdd}) => {
     const [formData, setFormData] = React.useState({
-        username: user.username || '',
-        email: user.email || '',
-        profession: user.profession || '',
-        skills: user.competences || '',
-        networks: user.reseaux || '',
+        username: '',
+        email: '',
+        profession: '',
+        skills: '',
+        networks: '',
     });
 
     const handleChange = (e) => {
@@ -25,7 +24,7 @@ const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
             ...formData,
             [e.target.name]: e.target.value,
         });
-        console.log("User edited successfully");
+        console.log("User added successfully");
     };
 
   return (
@@ -37,7 +36,7 @@ const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
             fontWeight: 'bold', 
             marginLeft:'20px'}}
         >
-                Editer un utilisateur
+                Ajouter un utilisateur
         </DialogTitle>
 
         <DialogContent>
@@ -46,7 +45,7 @@ const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
                     <TextField
                         label="Pseudo"
                         name="pseudo"
-                        value={formData.username || ''}
+                        value={formData.username}
                         onChange={handleChange}
                         fullWidth
                         variant="outlined"
@@ -56,7 +55,7 @@ const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
                     <TextField
                         label="Email"
                         name="email"
-                        value={formData.email || ''}
+                        value={formData.email}
                         onChange={handleChange}
                         fullWidth
                         variant="outlined"
@@ -66,7 +65,7 @@ const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
                     <TextField
                         label="Profession"
                         name="profession"
-                        value={formData.skills || ''}
+                        value={formData.skills}
                         onChange={handleChange}
                         fullWidth
                         variant="outlined"
@@ -76,7 +75,7 @@ const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
                     <TextField
                         label="Competences"
                         name="competences"
-                        value={formData.skills || ''}
+                        value={formData.skills}
                         onChange={handleChange}
                         fullWidth
                         variant="outlined"
@@ -86,7 +85,7 @@ const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
                     <TextField
                         label="Reseaux"
                         name="reseaux"
-                        value={formData.networks || ''}
+                        value={formData.networks}
                         onChange={handleChange}
                         fullWidth
                         variant="outlined"
@@ -97,16 +96,16 @@ const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
 
         <DialogActions>
             <Button onClick={onClose} variant='contained' sx={{backgroundColor: '#969696'}}>
-            Annuler
+                Annuler
             </Button>
 
             {/* Save button to save the form */}
-            <Button onClick={onSaveEdit} color="success" variant='contained'>
-            Sauvegarder
+            <Button onClick={onAdd} color="success" variant='contained'>
+                Ajouter
             </Button>
         </DialogActions>
     </Dialog>
   );
 };
 
-export default EditUserDialog;
+export default AddUserDialog;

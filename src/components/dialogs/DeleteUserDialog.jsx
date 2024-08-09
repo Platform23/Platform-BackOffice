@@ -4,16 +4,29 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Typography }
 const DeleteUserDialog = ({ open, onClose, onConfirm }) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Delete User</DialogTitle>
+      <DialogTitle
+        color="error"
+        sx={{
+          fontSize:'25px',  
+          fontWeight: 'bold',}}
+      >
+        Supprimer utilisateur
+      </DialogTitle>
+
       <DialogContent>
-        <Typography>Are you sure you want to delete this user?</Typography>
+        <Typography sx={{
+            fontSize:'20px'}}
+        >
+          Êtes-vous sûr de vouloir supprimer cet utilisateur ?
+        </Typography>
       </DialogContent>
+
       <DialogActions>
         <Button onClick={onClose} color="secondary">
-          Cancel
+          Annuler
         </Button>
         <Button onClick={onConfirm} color="error">
-          Delete
+          Supprimer
         </Button>
       </DialogActions>
     </Dialog>
