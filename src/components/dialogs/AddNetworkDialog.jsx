@@ -10,13 +10,11 @@ import {
 } from '@mui/material';
 
 
-const AddUserDialog = ({ open, onClose, onAdd}) => {
+const AddNetworkDialog = ({ open, onClose, onAdd}) => {
     const [formData, setFormData] = React.useState({
-        username: '',
-        email: '',
-        profession: '',
-        skills: '',
-        networks: '',
+        networkName: '',
+        description: '',
+        topics: '',
     });
 
     const handleChange = (e) => {
@@ -24,7 +22,7 @@ const AddUserDialog = ({ open, onClose, onAdd}) => {
             ...formData,
             [e.target.name]: e.target.value,
         });
-        console.log("User added successfully");
+        console.log("Network added successfully");
     };
 
   return (
@@ -36,46 +34,16 @@ const AddUserDialog = ({ open, onClose, onAdd}) => {
             fontWeight: 'bold', 
             marginLeft:'20px'}}
         >
-                Ajouter un utilisateur
+                Ajouter un reseau
         </DialogTitle>
 
         <DialogContent>
             <Grid container spacing={2} sx={{padding:'20px'}}>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                     <TextField
-                        label="Pseudo"
-                        name="pseudo"
-                        value={formData.username}
-                        onChange={handleChange}
-                        fullWidth
-                        variant="outlined"
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField
-                        label="Email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        fullWidth
-                        variant="outlined"
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField
-                        label="Profession"
-                        name="profession"
-                        value={formData.skills}
-                        onChange={handleChange}
-                        fullWidth
-                        variant="outlined"
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField
-                        label="Competences"
-                        name="competences"
-                        value={formData.skills}
+                        label="Nom reseau"
+                        name="networkName"
+                        value={formData.networkName}
                         onChange={handleChange}
                         fullWidth
                         variant="outlined"
@@ -83,14 +51,24 @@ const AddUserDialog = ({ open, onClose, onAdd}) => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        label="Reseaux"
-                        name="reseaux"
-                        value={formData.networks}
+                        label="Description"
+                        name="description"
+                        value={formData.description}
                         onChange={handleChange}
                         fullWidth
                         variant="outlined"
                     />
                 </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                        label="Sujets"
+                        name="topics"
+                        value={formData.topics}
+                        onChange={handleChange}
+                        fullWidth
+                        variant="outlined"
+                    />
+                </Grid>                
             </Grid>
         </DialogContent>
 
@@ -108,4 +86,4 @@ const AddUserDialog = ({ open, onClose, onAdd}) => {
   );
 };
 
-export default AddUserDialog;
+export default AddNetworkDialog;

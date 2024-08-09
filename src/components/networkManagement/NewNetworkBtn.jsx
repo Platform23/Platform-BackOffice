@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { styled } from '@mui/system';
-import AddUserDialog from '../dialogs/AddUserDialog';
+import AddNetworkDialog from '../dialogs/AddNetworkDialog';
 
-const NewUserButton = styled(Button)({
+const NewNetworkButton = styled(Button)({
   backgroundColor: '#25434d', // Dark blue color
   color: 'white',
   '&:hover': {
@@ -16,7 +16,7 @@ const NewUserButton = styled(Button)({
   textTransform: 'none',
 });
 
-const NewUserBtn = () => {
+const NewNetworkBtn = () => {
 
   const [dialogType, setDialogType] = useState(false);
 
@@ -28,30 +28,29 @@ const NewUserBtn = () => {
       setDialogType(false);
   };
 
-  // Function when adding a new user
-  const handleAddUser = () => {
-    console.log('User added succesfully');
+  // Function when adding a new network
+  const handleAddNetwork = () => {
+    console.log('Network added succesfully');
     handleCloseDialog();
   };
 
   return (
     <div>
+        <NewNetworkButton
+        variant="contained"
+        startIcon={<AddIcon />}
+        onClick={handleOpenDialog}
+        >
+        Ajouter un reseaux
+        </NewNetworkButton>
 
-    <NewUserButton
-      variant="contained"
-      startIcon={<AddIcon />}
-      onClick={handleOpenDialog}
-    >
-      Ajouter un utilisateur
-
-    </NewUserButton>
-    <AddUserDialog 
-      open={dialogType}
-      onClose={handleCloseDialog}
-      onAdd={handleAddUser}
-    />
+        <AddNetworkDialog 
+        open={dialogType}
+        onClose={handleCloseDialog}
+        onAdd={handleAddNetwork}
+        />
     </div>
   );
 }
 
-export default NewUserBtn;
+export default NewNetworkBtn;
