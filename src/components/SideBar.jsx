@@ -13,26 +13,26 @@ import {
 } from '@mui/material';
 import { 
   ChevronLeft as ChevronLeftIcon, 
-  ChevronRight as ChevronRightIcon, 
-  GridView as GridViewIcon, 
+  ChevronRight as ChevronRightIcon,
   People as PeopleIcon, 
-  Topic as TopicIcon 
+  Topic as TopicIcon,
+  Assignment as AssignmentIcon
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 
-const drawerWidth = 200;
+const drawerWidth = 230;
 
 const icons = [
   <PeopleIcon />,
   <TopicIcon />,
-  // <GridViewIcon />,
+  <AssignmentIcon />,
 ];
 
 const routes = [
   '/users',
   '/networks',
-  // '/dashboard',
+  '/networkAccess',
 ];
 
 const openedMixin = (theme) => ({
@@ -105,7 +105,7 @@ const SideBar = ({open, setOpen}) => {
             <Divider />
 
             <List>
-                {['Utilisateurs', 'Reseaux'].map((text, index) => (
+                {['Utilisateurs', 'Reseaux', "Demande d'integration"].map((text, index) => (
                     <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                         <ListItemButton
                           component={Link}
