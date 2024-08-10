@@ -16,7 +16,8 @@ import {
   ChevronRight as ChevronRightIcon,
   People as PeopleIcon, 
   Topic as TopicIcon,
-  Assignment as AssignmentIcon
+  Assignment as AssignmentIcon,
+  Chat as ChatIcon
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
@@ -27,12 +28,14 @@ const icons = [
   <PeopleIcon />,
   <TopicIcon />,
   <AssignmentIcon />,
+  <ChatIcon />,
 ];
 
 const routes = [
   '/users',
   '/networks',
   '/networkAccess',
+  '/messages',
 ];
 
 const openedMixin = (theme) => ({
@@ -105,7 +108,7 @@ const SideBar = ({open, setOpen}) => {
             <Divider />
 
             <List>
-                {['Utilisateurs', 'Reseaux', "Demande d'integration"].map((text, index) => (
+                {['Utilisateurs', 'Reseaux', "Demande d'integration", 'Messages'].map((text, index) => (
                     <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                         <ListItemButton
                           component={Link}
