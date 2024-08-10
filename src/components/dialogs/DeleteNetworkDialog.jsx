@@ -1,0 +1,36 @@
+import React from 'react';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Typography } from '@mui/material';
+
+const DeleteNetworkDialog = ({ open, onClose, onConfirm }) => {
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+      <DialogTitle
+        color="error"
+        sx={{
+          fontSize:'25px',  
+          fontWeight: 'bold',}}
+      >
+        Supprimer reseau
+      </DialogTitle>
+
+      <DialogContent>
+        <Typography sx={{
+            fontSize:'20px'}}
+        >
+          Êtes-vous sûr de vouloir supprimer ce reseau?
+        </Typography>
+      </DialogContent>
+
+      <DialogActions>
+        <Button onClick={onClose} color="secondary">
+          Annuler
+        </Button>
+        <Button onClick={onConfirm} color="error">
+          Supprimer
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+export default DeleteNetworkDialog;

@@ -10,11 +10,11 @@ import {
 } from '@mui/material';
 
 
-const AddNetworkDialog = ({ open, onClose, onAdd}) => {
+const EditNetworkDialog = ({ open, onClose, network = {} , onSaveEdit}) => {
     const [formData, setFormData] = React.useState({
-        networkName: '',
-        description: '',
-        topics: '',
+        networkname: network.networkName || '',
+        description: network.description || '',
+        topics: network.topics || '',
     });
 
     const handleChange = (e) => {
@@ -22,7 +22,7 @@ const AddNetworkDialog = ({ open, onClose, onAdd}) => {
             ...formData,
             [e.target.name]: e.target.value,
         });
-        console.log("Network added successfully");
+        console.log("Network edited successfully");
     };
 
   return (
@@ -34,7 +34,7 @@ const AddNetworkDialog = ({ open, onClose, onAdd}) => {
             fontWeight: 'bold', 
             marginLeft:'20px'}}
         >
-                Ajouter un reseau
+            Editer un reseau
         </DialogTitle>
 
         <DialogContent>
@@ -43,7 +43,7 @@ const AddNetworkDialog = ({ open, onClose, onAdd}) => {
                     <TextField
                         label="Nom reseau"
                         name="networkName"
-                        value={formData.networkName}
+                        value={formData.networkName || ''}
                         onChange={handleChange}
                         fullWidth
                         variant="outlined"
@@ -53,7 +53,7 @@ const AddNetworkDialog = ({ open, onClose, onAdd}) => {
                     <TextField
                         label="Description"
                         name="description"
-                        value={formData.description}
+                        value={formData.description || ''}
                         onChange={handleChange}
                         variant="outlined"
                         fullWidth
@@ -65,10 +65,12 @@ const AddNetworkDialog = ({ open, onClose, onAdd}) => {
                     <TextField
                         label="Sujets"
                         name="topics"
-                        value={formData.topics}
+                        value={formData.topics || ''}
                         onChange={handleChange}
-                        fullWidth
                         variant="outlined"
+                        fullWidth
+                        multiline
+                        minRows={3}
                     />
                 </Grid>                
             </Grid>
@@ -76,16 +78,16 @@ const AddNetworkDialog = ({ open, onClose, onAdd}) => {
 
         <DialogActions>
             <Button onClick={onClose} variant='contained' sx={{backgroundColor: '#969696'}}>
-                Annuler
+            Annuler
             </Button>
 
             {/* Save button to save the form */}
-            <Button onClick={onAdd} color="success" variant='contained'>
-                Ajouter
+            <Button onClick={onSaveEdit} color="success" variant='contained'>
+            Sauvegarder
             </Button>
         </DialogActions>
     </Dialog>
   );
 };
 
-export default AddNetworkDialog;
+export default EditNetworkDialog;

@@ -41,7 +41,7 @@ const NewNetworkBtn = () => {
         startIcon={<AddIcon />}
         onClick={handleOpenDialog}
         >
-        Ajouter un reseaux
+        Ajouter un reseau
         </NewNetworkButton>
 
         <AddNetworkDialog 

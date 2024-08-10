@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Typography, TextField, Button, Box } from '@mui/material';
+import { Container, Typography, TextField, Button, Box, Backdrop, CircularProgress } from '@mui/material';
 import { styled } from '@mui/system';
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -36,7 +36,7 @@ const Logo = styled('img')({
 
 const Login = () => {
     const [showPassword, setShowPassword] = React.useState(false);
-
+    const [loading, setLoading] = React.useState(false); // State to control Backdrop visibility
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleMouseDownPassword = (event) => {
@@ -47,8 +47,13 @@ const Login = () => {
     
     const handleLogin = () => {
         // Handle authentication
-        // After successful authentication, redirect to the dashboard
-        navigate('/users');
+        setLoading(true); // Show Backdrop
+
+        // Simulate an async authentication process
+        setTimeout(() => {
+            setLoading(false); // Hide Backdrop
+            navigate('/users'); // Redirect to dashboard
+        }, 2000); // Adjust the time as needed
     };
 
     return (
@@ -59,14 +64,14 @@ const Login = () => {
             Back office
         </Typography>
         <TextField
-            label="Username"
+            label="Pseudo"
             variant="outlined"
             fullWidth
             margin="normal"
         />
 
         <FormControl sx={{ mt: 3}} variant="filled" fullWidth>
-            <InputLabel htmlFor="outlined-adornment-password" variant="filled" fullWidth>Password</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-password" variant="filled" fullWidth>Mot de passe</InputLabel>
             <OutlinedInput
                 id="outlined-adornment-password"
                 type={showPassword ? 'text' : 'password'}
@@ -99,6 +104,14 @@ const Login = () => {
         </Button>
 
         </LoginBox>
+
+        <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={loading}
+        >
+            <CircularProgress color="inherit" />
+        </Backdrop>
+
     </BackgroundContainer>
     );
 }
