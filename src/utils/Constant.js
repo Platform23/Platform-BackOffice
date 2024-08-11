@@ -41,3 +41,7 @@ export const networks = [
     { name: "Makerspaces", description: "Atelier collaboratif dédié au prototypage, à la fabrication numérique et à des projets collaboratifs entre particuliers et entrepreneurs.", },
     { name: "Technique et Professionnelle", description: "Centre de formation technique et professionnelle.", },
 ]
+
+
+export const API_BASE_URL = "https://api.platformht.com/api";
+export const BASE_URL = "https://api.platformht.com";

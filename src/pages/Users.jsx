@@ -8,7 +8,7 @@ const Users = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const users = [
-    { id: 1, username: 'john_doe', email: 'john@example.com' },
+    { id: 1, username: 'john_doe', email: 'john@example.com', profiles: ["Volontaire / Bénévole", "Logisticien.ne"] },
     { id: 2, username: 'jane_doe', email: 'jane@example.com' },
     { id: 3, username: 'jake_doe', email: 'jake@example.com' },
     { id: 4, username: 'jim_doe', email: 'jim@example.com' },

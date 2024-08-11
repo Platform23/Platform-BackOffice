@@ -14,7 +14,7 @@ const AddNetworkDialog = ({ open, onClose, onAdd}) => {
     const [formData, setFormData] = React.useState({
         networkName: '',
         description: '',
-        topics: '',
+        topics: [],
     });
 
     const handleChange = (e) => {
@@ -69,6 +69,7 @@ const AddNetworkDialog = ({ open, onClose, onAdd}) => {
                         onChange={handleChange}
                         fullWidth
                         variant="outlined"
+                        
                     />
                 </Grid>                
             </Grid>

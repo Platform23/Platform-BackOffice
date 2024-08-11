@@ -35,19 +35,19 @@ const ViewUserDialog = ({ open, onClose, user }) => {
                     variant="outlined"
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                     <TextField
-                    label="Profession"
+                    label="Profil et rôle"
                     // User profession goes here
-                    value={user.profession}
+                    value={user.profiles}
                     fullWidth
                     InputProps={{ readOnly: true }}
                     variant="outlined"
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                     <TextField
-                    label="Competences"
+                    label="Compétences"
                     // User skills go here
                     value={user.competences}
                     fullWidth
@@ -57,9 +57,9 @@ const ViewUserDialog = ({ open, onClose, user }) => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                    label="Reseaux"
+                    label="Communauté d'appartenance"
                     // User networks go here
-                    value={user.reseaux}
+                    value={user.communities}
                     fullWidth
                     InputProps={{ readOnly: true }}
                     variant="outlined"

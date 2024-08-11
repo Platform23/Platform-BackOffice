@@ -26,7 +26,7 @@ const AddUserDialog = ({ open, onClose, onAdd}) => {
         event.preventDefault();
     };
     const [formData, setFormData] = React.useState({
-        pseudo: '',
+        username: '',
         email: '',
         password: '',
         competences: [],
@@ -59,7 +59,7 @@ const AddUserDialog = ({ open, onClose, onAdd}) => {
                 <Grid item xs={6}>
                     <TextField
                         label="Pseudo"
-                        name="pseudo"
+                        name="username"
                         value={formData.username}
                         onChange={handleChange}
                         fullWidth
