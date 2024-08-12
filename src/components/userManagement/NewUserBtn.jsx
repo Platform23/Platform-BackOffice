@@ -29,10 +29,10 @@ const NewUserBtn = () => {
   };
 
   // Function when adding a new user
-  const handleAddUser = () => {
-    console.log('User added succesfully');
-    handleCloseDialog();
-  };
+  // const handleAddUser = () => {
+  //   // console.log('User added succesfully');
+  //   handleCloseDialog();
+  // };
 
   return (
     <div>
@@ -48,7 +48,7 @@ const NewUserBtn = () => {
     <AddUserDialog 
       open={dialogType}
       onClose={handleCloseDialog}
-      onAdd={handleAddUser}
+      // onAdd={handleAddUser}
     />
     </div>
   );

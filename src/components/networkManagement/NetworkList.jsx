@@ -48,7 +48,7 @@ const NetworkList = ({networks}) => {
         <TableBody>
           {networks.map((network) => (
             <TableRow key={network.id}>
-              <TableCell sx={{fontSize: '18px'}}>{network.networkName}</TableCell>
+              <TableCell sx={{fontSize: '18px'}}>{network.name}</TableCell>
               <TableCell align="center">
                 <IconButton color="primary" onClick={() => handleOpenDialog(network, 'view')}>
                   <VisibilityIcon />

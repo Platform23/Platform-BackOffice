@@ -1,14 +1,12 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { styled, Box, Toolbar, Button, IconButton, Typography} from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import SideBar from './SideBar';
 import { Link } from 'react-router-dom';
+import AuthContext from './hooks/AuthProvider';
+import { API_BASE_URL } from '../utils/Constant';
 
 const drawerWidth = 230;
 
@@ -33,10 +31,26 @@ const AppBar = styled(MuiAppBar, {
 
 export default function NavBar() {
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
+  const { logout, user } = useContext(AuthContext);
+  const [error, setError] = useState(null);
 
   const handleDrawerOpen = () => {
       setOpen(true);
   };
+
+  const handleLogout = async () => {
+    try {
+        await logout();
+        navigate("/");
+    } catch (responseError) {
+        setError(responseError)
+    }
+}
+
+if (!user) {
+    return null;
+}
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -59,10 +73,11 @@ export default function NavBar() {
             Platform - Tableau de bord
           </Typography>
           <Button 
+            onClick={handleLogout}
             variant='text'
             color="inherit"
-            component={Link}
-            to="/"
+            // component={Link}
+            // to="/"
             sx={{fontWeight: 'bold'}}
           >
               Deconnexion

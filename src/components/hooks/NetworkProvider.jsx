@@ -42,7 +42,7 @@ export const useNetworks = () => {
         setLoading(true);
         try {
             const response = await fetch(`${API_BASE_URL}/networks`, {
-                method: "POST",
+                method: "GET",
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',

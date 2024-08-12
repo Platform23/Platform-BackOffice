@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import {
   Dialog,
   DialogActions,
@@ -17,30 +17,58 @@ import {
 } from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import { communityProfile, communities, competences } from '../../utils/Constant';
+import AuthContext from '../hooks/AuthProvider';
+import ErrorModal from '../modal/ErrorModal';
 
-
-const AddUserDialog = ({ open, onClose, onAdd}) => {
+const AddUserDialog = ({ open, onClose}) => {
     const [showPassword, setShowPassword] = React.useState(false);
+    const { register } = useContext(AuthContext);
+    const [error, setError] = useState(null);
+    const [showErrorModal, setShowErrorModal] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
     const [formData, setFormData] = React.useState({
-        username: '',
         email: '',
+        pseudo: '',
         password: '',
         competences: [],
         communities: [],
         profiles: [],
+        remember_me: true,
     });
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-        // console.log("User added successfully");
-    };
+    const handleChange = useCallback((e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+      }, []);
+
+    //   const handleDropdownChange = useCallback((name, value) => {
+    //     // If value is null, set selectedValues to an empty array to prevent null error.
+    //     const selectedValues = value ? value.map(item => item.value) : [];
+    //     setFormData((prevData) => ({ ...prevData, [name]: selectedValues }));
+    //   }, []);
+
+    const handleDropdownChange = useCallback((e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    }, []);
+    
+    
+      // Function when adding a new user
+      const handleAddUser = async(e) => {
+        e.preventDefault();
+        try {
+            await register(formData);
+            console.log('User added succesfully');
+            onClose();
+          } catch (responseError) {
+            setError(responseError)
+            setShowErrorModal(true);
+            onClose();
+        }
+      };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth >
@@ -58,18 +86,22 @@ const AddUserDialog = ({ open, onClose, onAdd}) => {
             <Grid container spacing={2} sx={{padding:'20px'}}>
                 <Grid item xs={6}>
                     <TextField
-                        label="Pseudo"
-                        name="username"
-                        value={formData.username}
+                        label="Nom d'utilisateur"
+                        name="pseudo"
+                        id="pseudo"
+                        type='text'
+                        value={formData.pseudo}
                         onChange={handleChange}
-                        fullWidth
                         variant="outlined"
+                        fullWidth
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <TextField
-                        label="Email"
+                        label="Adresse e-mail"
+                        id="email"
                         name="email"
+                        type='email'
                         value={formData.email}
                         onChange={handleChange}
                         fullWidth
@@ -80,7 +112,7 @@ const AddUserDialog = ({ open, onClose, onAdd}) => {
                     <FormControl sx={{ mt: 3}} variant="filled" fullWidth>
                         <InputLabel htmlFor="outlined-adornment-password" variant="outlined" fullWidth>Mot de passe</InputLabel>
                         <OutlinedInput
-                            id="outlined-adornment-password"
+                            id="password"
                             name="password"
                             type={showPassword ? 'text' : 'password'}
                             value={formData.password}
@@ -106,11 +138,11 @@ const AddUserDialog = ({ open, onClose, onAdd}) => {
                     <FormControl fullWidth>
                         <InputLabel id="profiles-label">Profil et rôle</InputLabel>
                         <Select
-                            labelId="profiles-label"
+                            labelId="profiles"
                             id="profiles"
                             name="profiles"
                             value={formData.profiles}
-                            onChange={handleChange}
+                            onChange={handleDropdownChange}
                             label="Profil et rôle"
                             multiple
                         >
@@ -128,14 +160,14 @@ const AddUserDialog = ({ open, onClose, onAdd}) => {
 
                 <Grid item xs={12}>
                     <FormControl fullWidth>
-                        <InputLabel id="competences-label">Compétences</InputLabel>
+                        <InputLabel id="competences">Compétences numériques et collaboratives</InputLabel>
                         <Select
-                            labelId="competences-label"
+                            labelId="competences"
                             id="competences"
                             name="competences"
                             value={formData.competences}
-                            onChange={handleChange}
-                            label="Compétences"
+                            onChange={handleDropdownChange}
+                            label="Compétences numériques et collaboratives"
                             multiple
                         >
                             {competences.map((comp) => (
@@ -149,13 +181,13 @@ const AddUserDialog = ({ open, onClose, onAdd}) => {
 
                 <Grid item xs={12}>
                     <FormControl fullWidth>
-                        <InputLabel id="communities-label">Communauté d'appartenance</InputLabel>
+                        <InputLabel id="communities">Communauté d'appartenance</InputLabel>
                         <Select
-                            labelId="communities-label"
+                            labelId="communities"
                             id="communities"
                             name="communities"
                             value={formData.communities}
-                            onChange={handleChange}
+                            onChange={handleDropdownChange}
                             label="Communauté d'appartenance"
                             multiple
                         >
@@ -166,6 +198,14 @@ const AddUserDialog = ({ open, onClose, onAdd}) => {
                             ))}
                         </Select>
                     </FormControl>
+
+                    {/* Error Modal */}
+                    <ErrorModal
+                        show={showErrorModal}
+                        onClose={() => setShowErrorModal(false)}
+                        errorMessage={error}
+                    />
+
                 </Grid>
 
             </Grid>
@@ -177,7 +217,7 @@ const AddUserDialog = ({ open, onClose, onAdd}) => {
             </Button>
 
             {/* Save button to save the form */}
-            <Button onClick={onAdd} color="success" variant='contained'>
+            <Button onClick={handleAddUser} color="success" variant='contained'>
                 Ajouter
             </Button>
         </DialogActions>
