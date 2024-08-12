@@ -200,16 +200,17 @@ const AddUserDialog = ({ open, onClose}) => {
                     </FormControl>
 
                     {/* Error Modal */}
-                    <ErrorModal
-                        show={showErrorModal}
-                        onClose={() => setShowErrorModal(false)}
-                        errorMessage={error}
-                    />
 
                 </Grid>
 
             </Grid>
         </DialogContent>
+        
+        <ErrorModal
+            show={showErrorModal}
+            onClose={() => setShowErrorModal(false)}
+            errorMessage={error}
+        />
 
         <DialogActions>
             <Button onClick={onClose} variant='contained' sx={{backgroundColor: '#969696'}}>

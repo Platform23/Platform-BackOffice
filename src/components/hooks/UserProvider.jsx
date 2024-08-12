@@ -6,17 +6,10 @@ import { API_BASE_URL } from '../../utils/Constant';
 
 export const UserProvider = () => {
     const [allUsers, setAllUsers] = useState([]);
+    const [user, setUser] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    // const { user } = useContext(AuthContext);
 
-    // useEffect(() => {
-    //     if (user) {
-    //         fetchUserNetworks();
-    //     } else {
-    //         setLoading(false);
-    //     }
-    // }, [user]);
 
     const fetchAllUsers = async () => {
         setLoading(true);
@@ -38,10 +31,30 @@ export const UserProvider = () => {
         }
     };
 
+    const updateUser = async (userData, uid) => {
+        try {
+          const response = await fetch(`${API_BASE_URL}/users/${uid}`, {
+            method: "PUT",
+            credentials: 'include',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userData),
+          });
+    
+          const data = await handleResponse(response);
+          setUser(data.data);
+        } catch (err) {
+          throw err.message;
+        }
+      };
+
     return {
         allUsers,
+        user,
         loading,
         error,
-        fetchAllUsers
+        fetchAllUsers,
+        updateUser
     };
 };

@@ -18,7 +18,6 @@ const ViewUserDialog = ({ open, onClose, user }) => {
                 <Grid item xs={6}>
                     <TextField
                     label="Nom complet"
-                    // User profession goes here
                     value={user.fullName}
                     fullWidth
                     InputProps={{ readOnly: true }}

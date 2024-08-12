@@ -22,10 +22,10 @@ const UserList = ({ users}) => {
         setDialogType(null);
     };
 
-    const handleSaveEdit = () => {
-      console.log('Saved changes user' + selectedUser.id);
-      handleCloseDialog();
-    };
+    // const handleSaveEdit = () => {
+    //   console.log('Saved changes user' + selectedUser.id);
+    //   handleCloseDialog();
+    // };
 
     const handleConfirmDelete = () => {
         console.log('Deleted user' + selectedUser.id);
@@ -70,7 +70,7 @@ const UserList = ({ users}) => {
       )}
 
       {dialogType === 'edit' && (
-        <EditUserDialog open={Boolean(dialogType)} onClose={handleCloseDialog} user={selectedUser} onSaveEdit={handleSaveEdit}/>
+        <EditUserDialog open={Boolean(dialogType)} onClose={handleCloseDialog} user={selectedUser} />
       )}
 
       {dialogType === 'delete' && (

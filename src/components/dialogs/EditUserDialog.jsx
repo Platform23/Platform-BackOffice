@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Dialog,
   DialogActions,
@@ -7,26 +7,21 @@ import {
   TextField,
   Button,
   Grid,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl,
-  OutlinedInput,
-  InputAdornment,
-  IconButton
 } from '@mui/material';
-import {Visibility, VisibilityOff} from '@mui/icons-material';
-import { communityProfile, communities, competences } from '../../utils/Constant';
+import { UserProvider } from '../hooks/UserProvider';
+import ErrorModal from '../modal/ErrorModal';
 
 
-
-const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
+const EditUserDialog = ({ open, onClose, user = {} }) => {
+    const { updateUser } = UserProvider();
+    const [error, setError] = useState(null);
+    const [showErrorModal, setShowErrorModal] = useState(false);
     const [formData, setFormData] = React.useState({
-        username: user.username || '',
+        fullName: user.fullName || '',
+        pseudo: user.pseudo || '',
         email: user.email || '',
-        profiles: user.profiles || [],
-        competences: user.competences || [],
-        communities: user.communities || [],
+        profession: user.profession || '',
+        uuid: user.uuid || '',
     });
 
     const handleChange = (e) => {
@@ -34,8 +29,21 @@ const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
             ...formData,
             [e.target.name]: e.target.value,
         });
-        console.log("User edited successfully");
     };
+
+    // Function when updating a new user
+    const handleUpdateUser = async(e) => {
+        e.preventDefault();
+        try {
+            await updateUser(formData, user.id);
+            console.log('User updated succesfully');
+            onClose();
+          } catch (responseError) {
+            setError(responseError)
+            setShowErrorModal(true);
+            onClose();
+        }
+      };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth >
@@ -53,9 +61,9 @@ const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
             <Grid container spacing={2} sx={{padding:'20px'}}>
                 <Grid item xs={6}>
                     <TextField
-                        label="Pseudo"
-                        name="pseudo"
-                        value={formData.username || ''}
+                        label="Nom complet"
+                        name="fullName"
+                        value={formData.fullName}
                         onChange={handleChange}
                         fullWidth
                         variant="outlined"
@@ -63,78 +71,51 @@ const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
                 </Grid>
                 <Grid item xs={6}>
                     <TextField
+                    label="Pseudo"
+                    value={formData.pseudo}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                    variant="outlined"
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField
                         label="Email"
                         name="email"
-                        value={formData.email || ''}
-                        onChange={handleChange}
+                        value={formData.email}
+                        InputProps={{ readOnly: true }}
+                        variant="outlined"
                         fullWidth
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField
+                        label="Profession"
+                        name="profession"
+                        value={formData.profession}
+                        onChange={handleChange}
+                        variant="outlined"
+                        fullWidth
+                    />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <TextField
+                        label="UUID"
+                        value={user.uuid}
+                        fullWidth
+                        InputProps={{ readOnly: true }}
                         variant="outlined"
                     />
                 </Grid>
-                <Grid item xs={12}>
-                    <FormControl fullWidth>
-                        <InputLabel id="profiles-label">Profil et rôle</InputLabel>
-                        <Select
-                            labelId="profiles-label"
-                            id="profiles"
-                            name="profiles"
-                            value={formData.profiles}
-                            onChange={handleChange}
-                            label="Profil et rôle"
-                            multiple
-                        >
-                            {communityProfile.map((profile) => (
-                                <MenuItem key={profile.value} value={profile.value}>
-                                    {profile.label}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-
-                <Grid item xs={12}>
-                    <FormControl fullWidth>
-                        <InputLabel id="competences-label">Compétences</InputLabel>
-                        <Select
-                            labelId="competences-label"
-                            id="competences"
-                            name="competences"
-                            value={formData.competences}
-                            onChange={handleChange}
-                            label="Compétences"
-                            multiple
-                        >
-                            {competences.map((comp) => (
-                                <MenuItem key={comp.value} value={comp.value}>
-                                    {comp.label}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-
-                <Grid item xs={12}>
-                    <FormControl fullWidth>
-                        <InputLabel id="communities-label">Communauté d'appartenance</InputLabel>
-                        <Select
-                            labelId="communities-label"
-                            id="communities"
-                            name="communities"
-                            value={formData.communities}
-                            onChange={handleChange}
-                            label="Communauté d'appartenance"
-                            multiple
-                        >
-                            {communities.map((communitie) => (
-                                <MenuItem key={communitie.value} value={communitie.value}>
-                                    {communitie.label}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
             </Grid>
         </DialogContent>
+        
+        <ErrorModal
+            show={showErrorModal}
+            onClose={() => setShowErrorModal(false)}
+            errorMessage={error}
+        />
 
         <DialogActions>
             <Button onClick={onClose} variant='contained' sx={{backgroundColor: '#969696'}}>
@@ -142,7 +123,7 @@ const EditUserDialog = ({ open, onClose, user = {} , onSaveEdit}) => {
             </Button>
 
             {/* Save button to save the form */}
-            <Button onClick={onSaveEdit} color="success" variant='contained'>
+            <Button onClick={handleUpdateUser} color="success" variant='contained'>
             Sauvegarder
             </Button>
         </DialogActions>
