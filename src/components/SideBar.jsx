@@ -27,15 +27,15 @@ const drawerWidth = 230;
 const icons = [
   <PeopleIcon />,
   <TopicIcon />,
-  <AssignmentIcon />,
-  <ChatIcon />,
+  // <AssignmentIcon />,
+  // <ChatIcon />,
 ];
 
 const routes = [
   '/users',
   '/networks',
-  '/networkAccess',
-  '/messages',
+  // '/networkAccess',
+  // '/messages',
 ];
 
 const openedMixin = (theme) => ({
@@ -108,7 +108,7 @@ const SideBar = ({open, setOpen}) => {
             <Divider />
 
             <List>
-                {['Utilisateurs', 'Reseaux', "Demande d'integration", 'Messages'].map((text, index) => (
+                {['Utilisateurs', 'Reseaux',].map((text, index) => (
                     <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                         <ListItemButton
                           component={Link}

@@ -3,9 +3,11 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconB
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import ViewNetworkDialog from '../dialogs/ViewNetworkDialog';
 import EditNetworkDialog from '../dialogs/EditNetworkDialog';
 import DeleteNetworkDialog from '../dialogs/DeleteNetworkDialog';
+import AddUserToNetwork from '../dialogs/AddUserToNetwork';
 
 const NetworkList = ({networks}) => {
 
@@ -56,6 +58,9 @@ const NetworkList = ({networks}) => {
                 <IconButton color="secondary" onClick={() => handleOpenDialog(network, 'edit')}>
                   <EditIcon />
                 </IconButton>
+                <IconButton color="success" onClick={() => handleOpenDialog(network, 'add')}>
+                  <PersonAddAlt1Icon />
+                </IconButton>
                 <IconButton color="error" onClick={() => handleOpenDialog(network, 'delete')}>
                   <DeleteIcon />
                 </IconButton>
@@ -71,6 +76,10 @@ const NetworkList = ({networks}) => {
 
       {dialogType === 'edit' && (
         <EditNetworkDialog open={Boolean(dialogType)} onClose={handleCloseDialog} network={selectedNetwork} onSaveEdit={handleSaveEdit}/>
+      )}
+
+      {dialogType === 'add' && (
+        <AddUserToNetwork open={Boolean(dialogType)} onClose={handleCloseDialog} network={selectedNetwork} onSaveEdit={handleSaveEdit}/>
       )}
 
       {dialogType === 'delete' && (

@@ -12,9 +12,9 @@ import {
 
 const EditNetworkDialog = ({ open, onClose, network = {} , onSaveEdit}) => {
     const [formData, setFormData] = React.useState({
-        networkname: network.networkName || '',
+        name: network.name || '',
         description: network.description || '',
-        topics: network.topics || '',
+        
     });
 
     const handleChange = (e) => {
@@ -42,8 +42,8 @@ const EditNetworkDialog = ({ open, onClose, network = {} , onSaveEdit}) => {
                 <Grid item xs={12}>
                     <TextField
                         label="Nom reseau"
-                        name="networkName"
-                        value={formData.networkName || ''}
+                        name="name"
+                        value={formData.name || ''}
                         onChange={handleChange}
                         fullWidth
                         variant="outlined"
@@ -61,7 +61,7 @@ const EditNetworkDialog = ({ open, onClose, network = {} , onSaveEdit}) => {
                         minRows={4}
                     />
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                     <TextField
                         label="Sujets"
                         name="topics"
@@ -72,7 +72,7 @@ const EditNetworkDialog = ({ open, onClose, network = {} , onSaveEdit}) => {
                         multiline
                         minRows={3}
                     />
-                </Grid>                
+                </Grid>                 */}
             </Grid>
         </DialogContent>
 

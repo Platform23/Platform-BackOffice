@@ -7,6 +7,7 @@ import { API_BASE_URL } from '../../utils/Constant';
 export const UserProvider = () => {
     const [allUsers, setAllUsers] = useState([]);
     const [user, setUser] = useState([]);
+    const [userToNetwork, setUserToNetwork] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -49,12 +50,32 @@ export const UserProvider = () => {
         }
       };
 
+      const addUserNetwork = async (networkId, userName) => {
+        try {
+          const response = await fetch(`${API_BASE_URL}/networks/${networkId}/add-user/${userName}`, {
+            method: "POST",
+            credentials: 'include',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            // body: JSON.stringify(userData),
+          });
+    
+          const data = await handleResponse(response);
+          setUserToNetwork(data.data);
+        } catch (err) {
+          throw err.message;
+        }
+      };
+
     return {
         allUsers,
+        userToNetwork,
         user,
         loading,
         error,
         fetchAllUsers,
-        updateUser
+        updateUser,
+        addUserNetwork
     };
 };

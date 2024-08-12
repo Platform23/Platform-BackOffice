@@ -19,7 +19,7 @@ const ViewNetworkDialog = ({ open, onClose, network }) => {
                     <TextField
                     label="Nom de reseau"
                     // Username goes here
-                    value={network.networkName}
+                    value={network.name}
                     fullWidth
                     InputProps={{ readOnly: true }}
                     variant="outlined"
@@ -37,7 +37,7 @@ const ViewNetworkDialog = ({ open, onClose, network }) => {
                     minRows={4}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                {/* <Grid item xs={6}>
                     <TextField
                         label="Sujets"
                         // User profession goes here
@@ -60,7 +60,7 @@ const ViewNetworkDialog = ({ open, onClose, network }) => {
                         multiline
                         minRows={4}
                     />
-                </Grid>
+                </Grid> */}
             </Grid>
         </DialogContent>
 
