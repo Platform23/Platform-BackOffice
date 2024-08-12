@@ -1,19 +1,27 @@
-import {useState, React} from 'react';
+import {useState, useEffect, React} from 'react';
 import { Typography } from '@mui/material';
 import Layout from '../components/Layout';
 import NewUserBtn from '../components/userManagement/NewUserBtn';
 import UserList from '../components/userManagement/UserList';
+import { UserProvider } from '../components/hooks/UserProvider';
 
 const Users = () => {
+  const { allUsers, fetchAllUsers } = UserProvider();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const users = [
-    { id: 1, username: 'john_doe', email: 'john@example.com', profiles: ["Volontaire / Bénévole", "Logisticien.ne"] },
-    { id: 2, username: 'jane_doe', email: 'jane@example.com' },
-    { id: 3, username: 'jake_doe', email: 'jake@example.com' },
-    { id: 4, username: 'jim_doe', email: 'jim@example.com' },
-    { id: 5, username: 'janny_doe', email: 'janny@example.com' },
-  ];
+  useEffect(() => {
+    fetchAllUsers(); // Fetch the networks when the component mounts
+  }, []);
+
+  // const users = [
+  //   { id: 1, username: 'john_doe', email: 'john@example.com', profiles: ["Volontaire / Bénévole", "Logisticien.ne"] },
+  //   { id: 2, username: 'jane_doe', email: 'jane@example.com' },
+  //   { id: 3, username: 'jake_doe', email: 'jake@example.com' },
+  //   { id: 4, username: 'jim_doe', email: 'jim@example.com' },
+  //   { id: 5, username: 'janny_doe', email: 'janny@example.com' },
+  // ];
   
   
   return (
@@ -29,9 +37,16 @@ const Users = () => {
           Utilisateurs
       </Typography>
       <NewUserBtn />
-      <UserList 
-        users={users}
-      />
+      {loading ? (
+          <Typography>Loading...</Typography>
+        ) : error ? (
+          <Typography color="error">Failed to load users: {error}</Typography>
+        ) : (
+          <UserList 
+            users={allUsers}
+          />
+        )}
+      
     </Layout>
 
   )

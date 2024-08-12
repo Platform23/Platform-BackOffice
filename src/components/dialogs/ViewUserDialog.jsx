@@ -17,9 +17,18 @@ const ViewUserDialog = ({ open, onClose, user }) => {
             <Grid container spacing={2} sx={{padding:'20px'}}>
                 <Grid item xs={6}>
                     <TextField
+                    label="Nom complet"
+                    // User profession goes here
+                    value={user.fullName}
+                    fullWidth
+                    InputProps={{ readOnly: true }}
+                    variant="outlined"
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField
                     label="Pseudo"
-                    // Username goes here
-                    value={user.username}
+                    value={user.pseudo}
                     fullWidth
                     InputProps={{ readOnly: true }}
                     variant="outlined"
@@ -28,18 +37,16 @@ const ViewUserDialog = ({ open, onClose, user }) => {
                 <Grid item xs={6}>
                     <TextField
                     label="Email"
-                    // User email goes here
                     value={user.email}
                     fullWidth
                     InputProps={{ readOnly: true }}
                     variant="outlined"
                     />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                     <TextField
-                    label="Profil et rôle"
-                    // User profession goes here
-                    value={user.profiles}
+                    label="Profession"
+                    value={user.profession}
                     fullWidth
                     InputProps={{ readOnly: true }}
                     variant="outlined"
@@ -47,19 +54,9 @@ const ViewUserDialog = ({ open, onClose, user }) => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                    label="Compétences"
-                    // User skills go here
-                    value={user.competences}
-                    fullWidth
-                    InputProps={{ readOnly: true }}
-                    variant="outlined"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                    label="Communauté d'appartenance"
+                    label="UUID"
                     // User networks go here
-                    value={user.communities}
+                    value={user.uuid}
                     fullWidth
                     InputProps={{ readOnly: true }}
                     variant="outlined"

@@ -47,7 +47,7 @@ const UserList = ({ users}) => {
         <TableBody>
           {users.map((user) => (
             <TableRow key={user.id}>
-              <TableCell sx={{fontSize: '18px'}}>{user.username}</TableCell>
+              <TableCell sx={{fontSize: '18px'}}>{user.pseudo}</TableCell>
               <TableCell sx={{fontSize: '15px', fontWeight: 'bold'}}>{user.email}</TableCell>
               <TableCell align="center">
                 <IconButton color="primary" onClick={() => handleOpenDialog(user, 'view')}>

@@ -8,7 +8,7 @@ import { useNetworks } from '../components/hooks/NetworkProvider'
 const Networks = () => {
   const { allNetworks, fetchAllNetworks } = useNetworks();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [networks, setNetworks] = useState([]);
+  // const [networks, setNetworks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
