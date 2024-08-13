@@ -74,7 +74,7 @@ const UserList = ({ users}) => {
       )}
 
       {dialogType === 'delete' && (
-        <DeleteUserDialog open={Boolean(dialogType)} onClose={handleCloseDialog} onConfirm={handleConfirmDelete} />
+        <DeleteUserDialog open={Boolean(dialogType)} onClose={handleCloseDialog} user={selectedUser} />
       )}  
 
     </TableContainer>

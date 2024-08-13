@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-// import AuthContext from './AuthProvider';
 import { handleResponse } from '../../utils/utils';
 import { API_BASE_URL } from '../../utils/Constant';
 
@@ -7,6 +6,7 @@ import { API_BASE_URL } from '../../utils/Constant';
 export const UserProvider = () => {
     const [allUsers, setAllUsers] = useState([]);
     const [user, setUser] = useState([]);
+    const [setDelUser] = useState(null);
     const [userToNetwork, setUserToNetwork] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -49,6 +49,24 @@ export const UserProvider = () => {
           throw err.message;
         }
       };
+    
+      const deleteUser = async (uid) => {
+        try {
+          const response = await fetch(`${API_BASE_URL}/users/${uid}`, {
+            method: "DELETE",
+            credentials: 'include',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            // body: JSON.stringify(userData),
+          });
+    
+          const data = await handleResponse(response);
+          setDelUser(data.data);
+        } catch (err) {
+          throw err.message;
+        }
+      };
 
       const addUserNetwork = async (networkId, userName) => {
         try {
@@ -76,6 +94,7 @@ export const UserProvider = () => {
         error,
         fetchAllUsers,
         updateUser,
-        addUserNetwork
+        addUserNetwork,
+        deleteUser
     };
 };

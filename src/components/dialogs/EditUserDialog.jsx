@@ -31,7 +31,7 @@ const EditUserDialog = ({ open, onClose, user = {} }) => {
         });
     };
 
-    // Function when updating a new user
+    // Function when updating a user
     const handleUpdateUser = async(e) => {
         e.preventDefault();
         try {
