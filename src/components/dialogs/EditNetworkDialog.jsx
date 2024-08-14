@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useCallback, useContext} from 'react';
 import {
   Dialog,
   DialogActions,
@@ -7,14 +7,26 @@ import {
   TextField,
   Button,
   Grid,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
 } from '@mui/material';
+import { subjects } from '../../utils/Constant';
+import { useNetworks } from '../hooks/NetworkProvider';
+import ErrorModal from '../modal/ErrorModal';
 
 
-const EditNetworkDialog = ({ open, onClose, network = {} , onSaveEdit}) => {
+const EditNetworkDialog = ({ open, onClose, network = {} }) => {
+    const {updateNetwork} = useNetworks();
+    const [error, setError] = useState(null);
+    const [showErrorModal, setShowErrorModal] = useState(false);
     const [formData, setFormData] = React.useState({
         name: network.name || '',
         description: network.description || '',
-        
+        subject1: network.subjects?.[0]?.name || '',
+        subject2: network.subjects?.[1]?.name || '',
+        subject3: network.subjects?.[2]?.name || '',
     });
 
     const handleChange = (e) => {
@@ -22,7 +34,26 @@ const EditNetworkDialog = ({ open, onClose, network = {} , onSaveEdit}) => {
             ...formData,
             [e.target.name]: e.target.value,
         });
-        console.log("Network edited successfully");
+        // console.log("Network edited successfully");
+    };
+
+    const handleDropdownChange = useCallback((e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    }, []);
+
+    // Function when updating a network
+    const handleUpdateNetwork = async(e) => {
+        e.preventDefault();
+        try {
+            await updateNetwork(formData, network.id);
+            console.log('Network updated succesfully');
+            onClose();
+          } catch (responseError) {
+            setError(responseError)
+            setShowErrorModal(true);
+            onClose();
+        }
     };
 
   return (
@@ -61,6 +92,66 @@ const EditNetworkDialog = ({ open, onClose, network = {} , onSaveEdit}) => {
                         minRows={4}
                     />
                 </Grid>
+                <Grid item xs={12}>
+                    <FormControl fullWidth>
+                        <InputLabel id="subject1">Sujet 1</InputLabel>
+                        <Select
+                            labelId="subject1"
+                            id="subject1"
+                            name="subject1"
+                            value={formData.subject1}
+                            onChange={handleDropdownChange}
+                            label="Profil et rôle"
+                            // multiple
+                        >
+                            {subjects.map((topic) => (
+                                <MenuItem key={topic.value} value={topic.value}>
+                                    {topic.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControl fullWidth>
+                        <InputLabel id="subject2">Sujet 2</InputLabel>
+                        <Select
+                            labelId="subject2"
+                            id="subject2"
+                            name="subject2"
+                            value={formData.subject2}
+                            onChange={handleDropdownChange}
+                            label="Profil et rôle"
+                            // multiple
+                        >
+                            {subjects.map((topic) => (
+                                <MenuItem key={topic.value} value={topic.value}>
+                                    {topic.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControl fullWidth>
+                        <InputLabel id="subject3">Sujet 3</InputLabel>
+                        <Select
+                            labelId="subject3"
+                            id="subject3"
+                            name="subject3"
+                            value={formData.subject3}
+                            onChange={handleDropdownChange}
+                            label="Profil et rôle"
+                            // multiple
+                        >
+                            {subjects.map((topic) => (
+                                <MenuItem key={topic.value} value={topic.value}>
+                                    {topic.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
                 {/* <Grid item xs={12}>
                     <TextField
                         label="Sujets"
@@ -72,9 +163,15 @@ const EditNetworkDialog = ({ open, onClose, network = {} , onSaveEdit}) => {
                         multiline
                         minRows={3}
                     />
-                </Grid>                 */}
+                </Grid> */}
             </Grid>
         </DialogContent>
+
+        <ErrorModal
+            show={showErrorModal}
+            onClose={() => setShowErrorModal(false)}
+            errorMessage={error}
+        />
 
         <DialogActions>
             <Button onClick={onClose} variant='contained' sx={{backgroundColor: '#969696'}}>
@@ -82,7 +179,7 @@ const EditNetworkDialog = ({ open, onClose, network = {} , onSaveEdit}) => {
             </Button>
 
             {/* Save button to save the form */}
-            <Button onClick={onSaveEdit} color="success" variant='contained'>
+            <Button onClick={handleUpdateNetwork} color="success" variant='contained'>
             Sauvegarder
             </Button>
         </DialogActions>

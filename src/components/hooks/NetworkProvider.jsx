@@ -7,6 +7,8 @@ import { API_BASE_URL } from '../../utils/Constant';
 export const useNetworks = () => {
     const [userNetworks, setUserNetworks] = useState([]);
     const [allNetworks, setAllNetworks] = useState([]);
+    const [setNetwork] = useState();
+    const [setDelNetwork] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { user } = useContext(AuthContext);
@@ -58,11 +60,48 @@ export const useNetworks = () => {
         }
     };
 
+    const updateNetwork = async (networkData, netid) => {
+        try {
+          const response = await fetch(`${API_BASE_URL}/networks/${netid}`, {
+            method: "PUT",
+            credentials: 'include',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(networkData),
+          });
+    
+          const data = await handleResponse(response);
+          setNetwork(data.data);
+        } catch (err) {
+          throw err.message;
+        }
+    };
+
+    const deleteNetwork = async (netid) => {
+        try {
+          const response = await fetch(`${API_BASE_URL}/networks/${netid}`, {
+            method: "DELETE",
+            credentials: 'include',
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+    
+          const data = await handleResponse(response);
+          setDelNetwork(data.data);
+        } catch (err) {
+          throw err.message;
+        }
+      };
+
     return {
         userNetworks,
         allNetworks,
         loading,
         error,
-        fetchAllNetworks
+        fetchAllNetworks,
+        deleteNetwork,
+        updateNetwork
     };
 };

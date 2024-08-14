@@ -24,18 +24,6 @@ const NetworkList = ({networks}) => {
         setDialogType(null);
     };
 
-    //Function when editing a network
-    const handleSaveEdit = () => {
-      console.log(selectedNetwork.networkName + ' edited succesfully');
-      handleCloseDialog();
-    };
-
-    //Function when deleting a network
-    const handleConfirmDelete = () => {
-        console.log('Deleted network ' + selectedNetwork.networkName);
-        handleCloseDialog();
-    };
-
 
   return (
     <TableContainer component={Paper} sx={{ maxWidth: '55%', marginLeft: 'auto', backgroundColor: '#f5f5f5'}}>
@@ -75,15 +63,15 @@ const NetworkList = ({networks}) => {
       )}
 
       {dialogType === 'edit' && (
-        <EditNetworkDialog open={Boolean(dialogType)} onClose={handleCloseDialog} network={selectedNetwork} onSaveEdit={handleSaveEdit}/>
+        <EditNetworkDialog open={Boolean(dialogType)} onClose={handleCloseDialog} network={selectedNetwork} />
       )}
 
       {dialogType === 'add' && (
-        <AddUserToNetwork open={Boolean(dialogType)} onClose={handleCloseDialog} network={selectedNetwork} onSaveEdit={handleSaveEdit}/>
+        <AddUserToNetwork open={Boolean(dialogType)} onClose={handleCloseDialog} network={selectedNetwork} />
       )}
 
       {dialogType === 'delete' && (
-        <DeleteNetworkDialog open={Boolean(dialogType)} onClose={handleCloseDialog} onConfirm={handleConfirmDelete} />
+        <DeleteNetworkDialog open={Boolean(dialogType)} onClose={handleCloseDialog} network={selectedNetwork} />
       )}  
 
     </TableContainer>

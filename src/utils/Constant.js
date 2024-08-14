@@ -42,6 +42,14 @@ export const networks = [
     { name: "Technique et Professionnelle", description: "Centre de formation technique et professionnelle.", },
 ]
 
+export const subjects = [
+    { value: 1, label: "Suject A", },
+    { value: 2, label: "Suject B", },
+    { value: 3, label: "Suject C", },
+    { value: 4, label: "Suject D", },
+    { value: 5, label: "Suject E", },
+    { value: 6, label: "Suject F", },
+]
 
 export const API_BASE_URL = "https://api.platformht.com/api";
 export const BASE_URL = "https://api.platformht.com";
