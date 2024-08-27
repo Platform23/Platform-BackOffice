@@ -17,7 +17,9 @@ import {
     Pagination,
 } from '@mui/material';
 import { UserProvider } from '../hooks/UserProvider';
-import ErrorModal from '../modal/ErrorModal';
+import MessageModal from '../modal/MessageModal';
+import Alert from '@mui/material/Alert';
+
 
 
 const AddUserToNetwork = ({ open, onClose, network }) => {
@@ -25,9 +27,10 @@ const AddUserToNetwork = ({ open, onClose, network }) => {
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [error, setError] = useState(null);
+    const [showAlert, setShowAlert] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [showMessageModal, setShowMessageModal] = useState(false);
     const usersPerPage = 10;
 
     useEffect(() => {
@@ -61,10 +64,15 @@ const AddUserToNetwork = ({ open, onClose, network }) => {
             try{
                 await addUserNetwork(network.id, selectedUser.pseudo);
                 console.log(`Adding user ${selectedUser.pseudo} to network ${network.id} ==> ${network.name}`);
-                onClose();
+                setShowAlert(true);  // Show the Alert
+                // Hide the alert after 3 seconds
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 3000);
+                // onClose();
             }catch (responseError){
                 setError(responseError)
-                setShowErrorModal(true);
+                setShowMessageModal(true);
                 onClose();
             }
         }
@@ -76,6 +84,7 @@ const AddUserToNetwork = ({ open, onClose, network }) => {
 
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+            {showAlert && <Alert severity="success"> ${selectedUser.pseudo} ajouté au réseau ${network.name}.</Alert>}
             <DialogTitle sx={{
             fontSize:'25px', 
             color: '#25434d', 
@@ -140,10 +149,10 @@ const AddUserToNetwork = ({ open, onClose, network }) => {
                 </Grid>
             </DialogContent>
 
-            <ErrorModal
-                show={showErrorModal}
-                onClose={() => setShowErrorModal(false)}
-                errorMessage={error}
+            <MessageModal
+                show={showMessageModal}
+                onClose={() => setShowMessageModal(false)}
+                message={error}
             />
 
             <DialogActions>

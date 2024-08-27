@@ -18,13 +18,15 @@ import {
 import {Visibility, VisibilityOff} from '@mui/icons-material';
 import { communityProfile, communities, competences } from '../../utils/Constant';
 import AuthContext from '../hooks/AuthProvider';
-import ErrorModal from '../modal/ErrorModal';
+import MessageModal from '../modal/MessageModal';
+import Alert from '@mui/material/Alert';
 
 const AddUserDialog = ({ open, onClose}) => {
     const [showPassword, setShowPassword] = React.useState(false);
     const { register } = useContext(AuthContext);
     const [error, setError] = useState(null);
-    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [showMessageModal, setShowMessageModal] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -60,18 +62,34 @@ const AddUserDialog = ({ open, onClose}) => {
       const handleAddUser = async(e) => {
         e.preventDefault();
         try {
+            console.log('Adding user...');
             await register(formData);
+            setFormData(
+                { 
+                email: '', 
+                pseudo: '', 
+                password: '', 
+                competences: [], 
+                communities: [], 
+                profiles: []}
+            );  // Clear the text fields
+            setShowAlert(true);  // Show the Alert
+            // Hide the alert after 3 seconds
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 3000);
             console.log('User added succesfully');
-            onClose();
+            // onClose();
           } catch (responseError) {
             setError(responseError)
-            setShowErrorModal(true);
+            setShowMessageModal(true);
             onClose();
         }
       };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth >
+      {showAlert && <Alert severity="success">Utilisateur ajouté avec succès.</Alert>}
       <DialogTitle 
         sx={{
             fontSize:'25px', 
@@ -206,15 +224,15 @@ const AddUserDialog = ({ open, onClose}) => {
             </Grid>
         </DialogContent>
         
-        <ErrorModal
-            show={showErrorModal}
-            onClose={() => setShowErrorModal(false)}
-            errorMessage={error}
+        <MessageModal
+            open={showMessageModal}
+            onClose={() => setShowMessageModal(false)}
+            message={error}
         />
 
         <DialogActions>
             <Button onClick={onClose} variant='contained' sx={{backgroundColor: '#969696'}}>
-                Annuler
+                Fermer
             </Button>
 
             {/* Save button to save the form */}

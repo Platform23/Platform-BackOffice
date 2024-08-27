@@ -1,7 +1,14 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
+import { 
+    Dialog, 
+    DialogTitle, 
+    DialogContent, 
+    DialogActions, 
+    Button, 
+    Typography 
+} from '@mui/material';
 
-const ErrorModal = ({ open, onClose, errorMessage }) => {
+const MessageModal = ({ open, onClose, message }) => {
     return (
         <Dialog
             open={open}
@@ -14,7 +21,7 @@ const ErrorModal = ({ open, onClose, errorMessage }) => {
             </DialogTitle>
             <DialogContent>
                 <Typography id="error-dialog-description" color="textPrimary">
-                    {errorMessage}
+                    {message}
                 </Typography>
             </DialogContent>
             <DialogActions>
@@ -26,4 +33,4 @@ const ErrorModal = ({ open, onClose, errorMessage }) => {
     );
 };
 
-export default ErrorModal;
+export default MessageModal;

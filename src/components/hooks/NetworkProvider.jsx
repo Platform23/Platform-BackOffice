@@ -5,6 +5,7 @@ import { API_BASE_URL } from '../../utils/Constant';
 
 
 export const useNetworks = () => {
+    const [newNetwork, setNewNetwork] = useState(null);
     const [userNetworks, setUserNetworks] = useState([]);
     const [allNetworks, setAllNetworks] = useState([]);
     const [setNetwork] = useState();
@@ -60,7 +61,25 @@ export const useNetworks = () => {
         }
     };
 
-    const updateNetwork = async (networkData, netid) => {
+    const addNetwork = async (networkData) => {
+        try {
+          const response = await fetch(`${API_BASE_URL}/networks`, {
+            method: "POST",
+            credentials: 'include',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(networkData),
+          });
+    
+          const data = await handleResponse(response);
+          setNewNetwork(data.data);
+        } catch (err) {
+          throw err.message;
+        }
+      };
+
+    const updateNetwork = async (networkData) => {
         try {
           const response = await fetch(`${API_BASE_URL}/networks/${netid}`, {
             method: "PUT",
@@ -97,10 +116,13 @@ export const useNetworks = () => {
 
     return {
         userNetworks,
+        newNetwork,
         allNetworks,
         loading,
         error,
         fetchAllNetworks,
+        addNetwork,
+        setNewNetwork,
         deleteNetwork,
         updateNetwork
     };

@@ -9,13 +9,13 @@ import {
   Grid,
 } from '@mui/material';
 import { UserProvider } from '../hooks/UserProvider';
-import ErrorModal from '../modal/ErrorModal';
+import MessageModal from '../modal/MessageModal';
 
 
 const EditUserDialog = ({ open, onClose, user = {} }) => {
     const { updateUser } = UserProvider();
     const [error, setError] = useState(null);
-    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [showMessageModal, setShowMessageModal] = useState(false);
     const [formData, setFormData] = React.useState({
         fullName: user.fullName || '',
         pseudo: user.pseudo || '',
@@ -40,7 +40,7 @@ const EditUserDialog = ({ open, onClose, user = {} }) => {
             onClose();
           } catch (responseError) {
             setError(responseError)
-            setShowErrorModal(true);
+            setShowMessageModal(true);
             onClose();
         }
       };
@@ -111,9 +111,9 @@ const EditUserDialog = ({ open, onClose, user = {} }) => {
             </Grid>
         </DialogContent>
         
-        <ErrorModal
-            show={showErrorModal}
-            onClose={() => setShowErrorModal(false)}
+        <MessageModal
+            show={showMessageModal}
+            onClose={() => setShowMessageModal(false)}
             errorMessage={error}
         />
 

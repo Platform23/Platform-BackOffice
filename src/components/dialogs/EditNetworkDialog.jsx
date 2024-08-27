@@ -14,13 +14,13 @@ import {
 } from '@mui/material';
 import { subjects } from '../../utils/Constant';
 import { useNetworks } from '../hooks/NetworkProvider';
-import ErrorModal from '../modal/ErrorModal';
+import MessageModal from '../modal/MessageModal';
 
 
 const EditNetworkDialog = ({ open, onClose, network = {} }) => {
     const {updateNetwork} = useNetworks();
-    const [error, setError] = useState(null);
-    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [message, setMessage] = useState(null);
+    const [showMessageModal, setShowMessageModal] = useState(false);
     const [formData, setFormData] = React.useState({
         name: network.name || '',
         description: network.description || '',
@@ -50,8 +50,8 @@ const EditNetworkDialog = ({ open, onClose, network = {} }) => {
             console.log('Network updated succesfully');
             onClose();
           } catch (responseError) {
-            setError(responseError)
-            setShowErrorModal(true);
+            setMessage(responseError)
+            setShowMessageModal(true);
             onClose();
         }
     };
@@ -105,7 +105,7 @@ const EditNetworkDialog = ({ open, onClose, network = {} }) => {
                             // multiple
                         >
                             {subjects.map((topic) => (
-                                <MenuItem key={topic.value} value={topic.value}>
+                                <MenuItem key={topic.id} value={topic.label}>
                                     {topic.label}
                                 </MenuItem>
                             ))}
@@ -125,7 +125,7 @@ const EditNetworkDialog = ({ open, onClose, network = {} }) => {
                             // multiple
                         >
                             {subjects.map((topic) => (
-                                <MenuItem key={topic.value} value={topic.value}>
+                                <MenuItem key={topic.id} value={topic.label}>
                                     {topic.label}
                                 </MenuItem>
                             ))}
@@ -145,7 +145,7 @@ const EditNetworkDialog = ({ open, onClose, network = {} }) => {
                             // multiple
                         >
                             {subjects.map((topic) => (
-                                <MenuItem key={topic.value} value={topic.value}>
+                                <MenuItem key={topic.id} value={topic.label}>
                                     {topic.label}
                                 </MenuItem>
                             ))}
@@ -167,10 +167,10 @@ const EditNetworkDialog = ({ open, onClose, network = {} }) => {
             </Grid>
         </DialogContent>
 
-        <ErrorModal
-            show={showErrorModal}
-            onClose={() => setShowErrorModal(false)}
-            errorMessage={error}
+        <MessageModal
+            show={showMessageModal}
+            onClose={() => setShowMessageModal(false)}
+            message={message}
         />
 
         <DialogActions>

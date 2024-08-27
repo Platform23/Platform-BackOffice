@@ -11,7 +11,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import logo from '../assets/images/logo.png'; 
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../components/hooks/AuthProvider';
-import ErrorModal from '../components/modal/ErrorModal';
+import MessageModal from '../components/modal/MessageModal';
 
 const BackgroundContainer = styled(Container)({
   height: '100vh',
@@ -46,7 +46,7 @@ const SignIn = () => {
     
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = React.useState(false);
-    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [showMessageModal, setShowMessageModal] = useState(false);
     const [loading, setLoading] = React.useState(false); // State to control Backdrop visibility
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -70,7 +70,7 @@ const SignIn = () => {
         } catch (responseError) {
             setLoading(false);
             setError(responseError)
-            setShowErrorModal(true);
+            setShowMessageModal(true);
         }
 
         // Simulate an async authentication process
@@ -135,10 +135,10 @@ const SignIn = () => {
 
         </LoginBox>
         {/* Error Modal */}
-        <ErrorModal
-            open={showErrorModal}
-            onClose={() => setShowErrorModal(false)}
-            errorMessage={error}
+        <MessageModal
+            open={showMessageModal}
+            onClose={() => setShowMessageModal(false)}
+            message={error}
         />
 
         <Backdrop
