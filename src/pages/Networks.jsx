@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import Layout from '../components/Layout';
-import NewNetworkBtn from '../components/networkManagement/newNetworkBtn';
+import NewNetworkBtn from '../components/networkManagement/NewNetworkBtn';
 import NetworkList from '../components/networkManagement/NetworkList';
 import { useNetworks } from '../components/hooks/NetworkProvider'
 
