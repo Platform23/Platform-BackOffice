@@ -26,7 +26,7 @@ const AddUserToNetwork = ({ open, onClose, network }) => {
     const { allUsers, fetchAllUsers, addUserNetwork } = UserProvider();
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
-    const [error, setError] = useState(null);
+    const [message, setMessage] = useState(null);
     const [showAlert, setShowAlert] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -71,7 +71,7 @@ const AddUserToNetwork = ({ open, onClose, network }) => {
                 }, 3000);
                 // onClose();
             }catch (responseError){
-                setError(responseError)
+                setMessage(responseError)
                 setShowMessageModal(true);
                 onClose();
             }
@@ -84,7 +84,7 @@ const AddUserToNetwork = ({ open, onClose, network }) => {
 
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-            {showAlert && <Alert severity="success"> ${selectedUser.pseudo} ajouté au réseau ${network.name}.</Alert>}
+            {showAlert && <Alert severity="success"> {selectedUser.pseudo} ajouté au réseau {network.name}.</Alert>}
             <DialogTitle sx={{
             fontSize:'25px', 
             color: '#25434d', 
@@ -150,14 +150,14 @@ const AddUserToNetwork = ({ open, onClose, network }) => {
             </DialogContent>
 
             <MessageModal
-                show={showMessageModal}
+                open={showMessageModal}
                 onClose={() => setShowMessageModal(false)}
-                message={error}
+                message={message}
             />
 
             <DialogActions>
                 <Button onClick={onClose} variant="contained" sx={{backgroundColor: '#969696'}}>
-                    Annuler
+                    Fermer
                 </Button>
                 <Button
                     onClick={handleAddUser}

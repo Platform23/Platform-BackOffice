@@ -50,7 +50,7 @@ const Networks = () => {
           fontWeight: 'bold'
         }}
       >
-          Reseaux
+          Réseaux
       </Typography>
       <NewNetworkBtn />
         {loading ? (

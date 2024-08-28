@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useContext} from 'react';
+import React, {useState, useCallback} from 'react';
 import {
   Dialog,
   DialogActions,
@@ -15,12 +15,15 @@ import {
 import { subjects } from '../../utils/Constant';
 import { useNetworks } from '../hooks/NetworkProvider';
 import MessageModal from '../modal/MessageModal';
+import Alert from '@mui/material/Alert';
 
 
 const EditNetworkDialog = ({ open, onClose, network = {} }) => {
     const {updateNetwork} = useNetworks();
     const [message, setMessage] = useState(null);
     const [showMessageModal, setShowMessageModal] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+
     const [formData, setFormData] = React.useState({
         name: network.name || '',
         description: network.description || '',
@@ -46,9 +49,16 @@ const EditNetworkDialog = ({ open, onClose, network = {} }) => {
     const handleUpdateNetwork = async(e) => {
         e.preventDefault();
         try {
+            console.log('Updating network...');
             await updateNetwork(formData, network.id);
             console.log('Network updated succesfully');
-            onClose();
+            setShowAlert(true);  // Show the Alert
+            // Hide the alert after 3 seconds
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 3000);
+
+            // onClose();
           } catch (responseError) {
             setMessage(responseError)
             setShowMessageModal(true);
@@ -58,6 +68,7 @@ const EditNetworkDialog = ({ open, onClose, network = {} }) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth >
+      {showAlert && <Alert severity="success">Réseau {network.name} modifié avec succès.</Alert>}
       <DialogTitle 
         sx={{
             fontSize:'25px', 
@@ -175,12 +186,12 @@ const EditNetworkDialog = ({ open, onClose, network = {} }) => {
 
         <DialogActions>
             <Button onClick={onClose} variant='contained' sx={{backgroundColor: '#969696'}}>
-            Annuler
+                Fermer
             </Button>
 
             {/* Save button to save the form */}
             <Button onClick={handleUpdateNetwork} color="success" variant='contained'>
-            Sauvegarder
+                Sauvegarder
             </Button>
         </DialogActions>
     </Dialog>

@@ -5,7 +5,7 @@ import MessageModal from '../modal/MessageModal';
 
 const DeleteUserDialog = ({ open, onClose, user }) => {
     const { deleteUser } = UserProvider();
-    const [error, setError] = useState(null);
+    const [message, setMessage] = useState(null);
     const [showMessageModal, setShowMessageModal] = useState(false);
 
     // Function when deleting a user
@@ -14,9 +14,10 @@ const DeleteUserDialog = ({ open, onClose, user }) => {
       try {
           await deleteUser(user.id);
           console.log('User deleted succesfully');
+          setMessage("Utilisateur supprimé avec succès.");
           onClose();
         } catch (responseError) {
-          setError(responseError)
+          setMessage(responseError)
           setShowMessageModal(true);
           onClose();
       }
@@ -42,9 +43,9 @@ const DeleteUserDialog = ({ open, onClose, user }) => {
 
       </DialogContent>
       <MessageModal
-          show={showMessageModal}
+          open={showMessageModal}
           onClose={() => setShowMessageModal(false)}
-          errorMessage={error}
+          message={message}
       />
 
       <DialogActions>

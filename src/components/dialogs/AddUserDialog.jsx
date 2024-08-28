@@ -16,7 +16,7 @@ import {
   IconButton
 } from '@mui/material';
 import {Visibility, VisibilityOff} from '@mui/icons-material';
-import { communityProfile, communities, competences } from '../../utils/Constant';
+import { communityProfile, communities, competences, userRole } from '../../utils/Constant';
 import AuthContext from '../hooks/AuthProvider';
 import MessageModal from '../modal/MessageModal';
 import Alert from '@mui/material/Alert';
@@ -35,6 +35,7 @@ const AddUserDialog = ({ open, onClose}) => {
         email: '',
         pseudo: '',
         password: '',
+        role: '',
         competences: [],
         communities: [],
         profiles: [],
@@ -45,12 +46,6 @@ const AddUserDialog = ({ open, onClose}) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
       }, []);
-
-    //   const handleDropdownChange = useCallback((name, value) => {
-    //     // If value is null, set selectedValues to an empty array to prevent null error.
-    //     const selectedValues = value ? value.map(item => item.value) : [];
-    //     setFormData((prevData) => ({ ...prevData, [name]: selectedValues }));
-    //   }, []);
 
     const handleDropdownChange = useCallback((e) => {
         const { name, value } = e.target;
@@ -69,11 +64,13 @@ const AddUserDialog = ({ open, onClose}) => {
                 email: '', 
                 pseudo: '', 
                 password: '', 
+                role: '',
                 competences: [], 
                 communities: [], 
                 profiles: []}
             );  // Clear the text fields
             setShowAlert(true);  // Show the Alert
+
             // Hide the alert after 3 seconds
             setTimeout(() => {
                 setShowAlert(false);
@@ -126,8 +123,8 @@ const AddUserDialog = ({ open, onClose}) => {
                         variant="outlined"
                     />
                 </Grid>
-                <Grid item xs={12}>
-                    <FormControl sx={{ mt: 3}} variant="filled" fullWidth>
+                <Grid item xs={6}>
+                    <FormControl  variant="filled" fullWidth>
                         <InputLabel htmlFor="outlined-adornment-password" variant="outlined" fullWidth>Mot de passe</InputLabel>
                         <OutlinedInput
                             id="password"
@@ -151,6 +148,25 @@ const AddUserDialog = ({ open, onClose}) => {
                         />
                     </FormControl>
                 </Grid>
+                
+                <Grid item xs={6}>
+                    <FormControl fullWidth>
+                        <InputLabel id="profiles-label">Rôle</InputLabel>
+                        <Select
+                            labelId="role"
+                            id="role"
+                            name="role"
+                            value={formData.role}
+                            onChange={handleDropdownChange}
+                        >
+                            {userRole.map((role) => (
+                                <MenuItem key={role.value} value={role.value}>
+                                    {role.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
 
                 <Grid item xs={12}>
                     <FormControl fullWidth>
@@ -164,9 +180,6 @@ const AddUserDialog = ({ open, onClose}) => {
                             label="Profil et rôle"
                             multiple
                         >
-                            {/* <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem> */}
                             {communityProfile.map((profile) => (
                                 <MenuItem key={profile.value} value={profile.value}>
                                     {profile.label}

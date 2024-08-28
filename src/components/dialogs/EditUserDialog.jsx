@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback, useContext} from 'react';
 import {
   Dialog,
   DialogActions,
@@ -7,21 +7,29 @@ import {
   TextField,
   Button,
   Grid,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel
 } from '@mui/material';
+import {userRole } from '../../utils/Constant';
 import { UserProvider } from '../hooks/UserProvider';
 import MessageModal from '../modal/MessageModal';
+import Alert from '@mui/material/Alert';
+
 
 
 const EditUserDialog = ({ open, onClose, user = {} }) => {
     const { updateUser } = UserProvider();
-    const [error, setError] = useState(null);
+    const [message, setMessage] = useState(null);
+    const [showAlert, setShowAlert] = useState(false);
     const [showMessageModal, setShowMessageModal] = useState(false);
     const [formData, setFormData] = React.useState({
         fullName: user.fullName || '',
         pseudo: user.pseudo || '',
         email: user.email || '',
         profession: user.profession || '',
-        uuid: user.uuid || '',
+        role: user.role || '',
     });
 
     const handleChange = (e) => {
@@ -31,15 +39,27 @@ const EditUserDialog = ({ open, onClose, user = {} }) => {
         });
     };
 
+    const handleDropdownChange = useCallback((e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    }, []);
+
     // Function when updating a user
     const handleUpdateUser = async(e) => {
         e.preventDefault();
         try {
+            console.log('Updating user...');
             await updateUser(formData, user.id);
             console.log('User updated succesfully');
-            onClose();
+            setShowAlert(true);  // Show the Alert
+            // Hide the alert after 3 seconds
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 3000);
+            
+            // onClose();
           } catch (responseError) {
-            setError(responseError)
+            setMessage(responseError)
             setShowMessageModal(true);
             onClose();
         }
@@ -47,6 +67,7 @@ const EditUserDialog = ({ open, onClose, user = {} }) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth >
+        {showAlert && <Alert severity="success">Utilisateur {user.pseudo} modifié avec succès.</Alert>}
       <DialogTitle 
         sx={{
             fontSize:'25px', 
@@ -100,31 +121,40 @@ const EditUserDialog = ({ open, onClose, user = {} }) => {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <TextField
-                        label="UUID"
-                        value={user.uuid}
-                        fullWidth
-                        InputProps={{ readOnly: true }}
-                        variant="outlined"
-                    />
+                    <FormControl fullWidth>
+                        <InputLabel id="profiles-label">Rôle</InputLabel>
+                        <Select
+                            labelId="role"
+                            id="role"
+                            name="role"
+                            value={formData.role}
+                            onChange={handleDropdownChange}
+                        >
+                            {userRole.map((role) => (
+                                <MenuItem key={role.value} value={role.value}>
+                                    {role.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </Grid>
             </Grid>
         </DialogContent>
         
         <MessageModal
-            show={showMessageModal}
+            open={showMessageModal}
             onClose={() => setShowMessageModal(false)}
-            errorMessage={error}
+            message={message}
         />
 
         <DialogActions>
             <Button onClick={onClose} variant='contained' sx={{backgroundColor: '#969696'}}>
-            Annuler
+                Fermer
             </Button>
 
             {/* Save button to save the form */}
             <Button onClick={handleUpdateUser} color="success" variant='contained'>
-            Sauvegarder
+                Sauvegarder
             </Button>
         </DialogActions>
     </Dialog>

@@ -53,9 +53,8 @@ const ViewUserDialog = ({ open, onClose, user }) => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                    label="UUID"
-                    // User networks go here
-                    value={user.uuid}
+                    label="Role"
+                    value={user.role ===3? 'Administrateur' : 'Utilisateur'}
                     fullWidth
                     InputProps={{ readOnly: true }}
                     variant="outlined"

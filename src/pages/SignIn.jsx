@@ -37,8 +37,8 @@ const Logo = styled('img')({
 });
 
 const SignIn = () => {
-    const { login } = useContext(AuthContext);
-    const [error, setError] = useState(null);
+    const { login, user } = useContext(AuthContext);
+    const [message, setMessage] = useState(null);
     const [credentials, setCredentials] = useState({
         identifier: '',
         password: '',
@@ -65,19 +65,21 @@ const SignIn = () => {
         try {
             // Handle authentication
             setLoading(true); // Show Backdrop
-            await login(credentials);
+            const userData = await login(credentials);
+            // console.log(userData)
+            // Chech if user is admin
+            if (userData.role !== 3){
+                setMessage("Accès refusé");
+                setShowMessageModal(true);
+                setLoading(false);
+                return;
+            }
             navigate("/users"); // Redirect to dashboard
         } catch (responseError) {
             setLoading(false);
-            setError(responseError)
+            setMessage(responseError);
             setShowMessageModal(true);
         }
-
-        // Simulate an async authentication process
-        // setTimeout(() => {
-        //     setLoading(false); // Hide Backdrop
-        //     navigate('/users'); // Redirect to dashboard
-        // }, 2000); // Adjust the time as needed
     };
 
     return (
@@ -85,7 +87,7 @@ const SignIn = () => {
         <LoginBox>
             <Logo src={logo} alt="Logo" />
             <Typography variant="h5" color={'#25434d'} gutterBottom>
-                Back office
+                Back-Office
             </Typography>
             <TextField
                 label="Pseudo"
@@ -138,7 +140,7 @@ const SignIn = () => {
         <MessageModal
             open={showMessageModal}
             onClose={() => setShowMessageModal(false)}
-            message={error}
+            message={message}
         />
 
         <Backdrop

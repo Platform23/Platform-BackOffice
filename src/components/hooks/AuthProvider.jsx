@@ -47,6 +47,7 @@ export const AuthProvider = ({ children }) => {
 
       const data = await handleResponse(response);
       setUser(data.data);
+      return data.data
     } catch (err) {
       console.log(err.message)
       throw err.message;

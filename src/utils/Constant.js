@@ -51,5 +51,10 @@ export const subjects = [
     { value: 6, label: "Suject F", },
 ]
 
+export const userRole = [
+    { value: 1, label: "Utilisateur", },
+    { value: 3, label: "Administrateur", },
+]
+
 export const API_BASE_URL = "https://api.platformht.com/api";
 export const BASE_URL = "https://api.platformht.com";

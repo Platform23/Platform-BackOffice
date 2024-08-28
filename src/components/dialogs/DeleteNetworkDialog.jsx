@@ -19,7 +19,6 @@ const DeleteNetworkDialog = ({ open, onClose, network}) => {
           setMessage('Réseau supprimé avec succès.')
           setShowAlert(true);  // Show the Alert
           setShowMessageModal(true);
-          <Alert severity="success">Network deleted succesfully.</Alert>
           console.log('Network deleted succesfully');
           onClose();
         } catch (responseError) {
