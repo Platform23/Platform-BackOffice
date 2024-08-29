@@ -4,10 +4,12 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import ViewNetworkDialog from '../dialogs/ViewNetworkDialog';
 import EditNetworkDialog from '../dialogs/EditNetworkDialog';
 import DeleteNetworkDialog from '../dialogs/DeleteNetworkDialog';
 import AddUserToNetwork from '../dialogs/AddUserToNetwork';
+import ShowNetworkUsers from '../dialogs/ShowNetworkUsersDialog';
 
 const NetworkList = ({networks}) => {
 
@@ -49,6 +51,9 @@ const NetworkList = ({networks}) => {
                 <IconButton color="success" onClick={() => handleOpenDialog(network, 'add')}>
                   <PersonAddAlt1Icon />
                 </IconButton>
+                <IconButton color="info" onClick={() => handleOpenDialog(network, 'list')}>
+                  <FormatListBulletedIcon />
+                </IconButton>
                 <IconButton color="error" onClick={() => handleOpenDialog(network, 'delete')}>
                   <DeleteIcon />
                 </IconButton>
@@ -68,6 +73,10 @@ const NetworkList = ({networks}) => {
 
       {dialogType === 'add' && (
         <AddUserToNetwork open={Boolean(dialogType)} onClose={handleCloseDialog} network={selectedNetwork} />
+      )}
+
+      {dialogType === 'list' && (
+        <ShowNetworkUsers open={Boolean(dialogType)} onClose={handleCloseDialog} network={selectedNetwork} />
       )}
 
       {dialogType === 'delete' && (

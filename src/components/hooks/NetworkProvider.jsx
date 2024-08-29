@@ -8,6 +8,7 @@ export const useNetworks = () => {
     const [newNetwork, setNewNetwork] = useState(null);
     const [userNetworks, setUserNetworks] = useState([]);
     const [allNetworks, setAllNetworks] = useState([]);
+    const [networkInfo, setNetworkInfo] = useState([]);
     const [setNetwork] = useState();
     const [setDelNetwork] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -60,6 +61,26 @@ export const useNetworks = () => {
             setLoading(false);
         }
     };
+
+    const fetchNetworkInfo = async (networkUuid) => {
+      setLoading(true);
+      try {
+          const response = await fetch(`${API_BASE_URL}/networks/${networkUuid}`, {
+              method: "GET",
+              credentials: 'include',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+          });
+
+          const data = await handleResponse(response);
+          setNetworkInfo(data.data);
+      } catch (err) {
+          setError(err.message);
+      } finally {
+          setLoading(false);
+      }
+  };
 
     const addNetwork = async (networkData) => {
         try {
@@ -118,12 +139,14 @@ export const useNetworks = () => {
         userNetworks,
         newNetwork,
         allNetworks,
+        networkInfo,
         loading,
         error,
         fetchAllNetworks,
         addNetwork,
         setNewNetwork,
         deleteNetwork,
-        updateNetwork
+        updateNetwork,
+        fetchNetworkInfo
     };
 };
