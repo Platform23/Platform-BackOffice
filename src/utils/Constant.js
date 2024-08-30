@@ -4,11 +4,10 @@ export const communityProfile = [
     { value: 3, label: "Réparateur.trice", },
     { value: 4, label: "Fab-manager", },
     { value: 5, label: "Community manager", },
-    { value: 6, label: "Volontaire / Bénévole", },
-    { value: 7, label: "Logisticien.ne", },
-    { value: 8, label: "Développeur.euse d'interfaces", },
-    { value: 9, label: "Designer/ Programmeur.euse" },
-    { value: 10, label: "Concepteur.trice de produits technologiques", },
+    { value: 6, label: "Logisticien.ne", },
+    { value: 7, label: "Développeur.euse d'interfaces", },
+    { value: 8, label: "Designer/ Programmeur.euse" },
+    { value: 9, label: "Concepteur.trice de produits technologiques", },
 ];
 
 export const communities = [
@@ -43,12 +42,12 @@ export const networks = [
 ]
 
 export const subjects = [
-    { value: 1, label: "Suject A", },
-    { value: 2, label: "Suject B", },
-    { value: 3, label: "Suject C", },
-    { value: 4, label: "Suject D", },
-    { value: 5, label: "Suject E", },
-    { value: 6, label: "Suject F", },
+    { value: 11, label: "Suject A", },
+    { value: 12, label: "Suject B", },
+    { value: 13, label: "Suject C", },
+    { value: 14, label: "Suject D", },
+    { value: 15, label: "Suject E", },
+    { value: 16, label: "Suject F", },
 ]
 
 export const userRole = [

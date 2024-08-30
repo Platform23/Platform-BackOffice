@@ -145,7 +145,7 @@ const ShowNetworkUsers = ({ open, onClose, network }) => {
                                             ))
                                         ) : (
                                             <TableRow>
-                                                <TableCell colSpan={2}>No users found or loading...</TableCell>
+                                                <TableCell colSpan={2}>Chargement...</TableCell>
                                             </TableRow>
                                         )}
                                 </TableBody>
