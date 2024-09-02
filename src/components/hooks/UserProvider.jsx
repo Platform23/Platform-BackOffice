@@ -5,6 +5,7 @@ import { API_BASE_URL } from '../../utils/Constant';
 
 export const UserProvider = () => {
     const [allUsers, setAllUsers] = useState([]);
+    const [userInfo, setUserInfo] = useState([]);
     const [user, setUser] = useState([]);
     const [setDelUser] = useState(null);
     const [userToNetwork, setUserToNetwork] = useState([]);
@@ -31,6 +32,26 @@ export const UserProvider = () => {
             setLoading(false);
         }
     };
+
+    const fetchUserInfo = async (uuid) => {
+      setLoading(true);
+      try {
+          const response = await fetch(`${API_BASE_URL}/users/${uuid}`, {
+              method: "GET",
+              credentials: 'include',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+          });
+
+          const data = await handleResponse(response);
+          setUserInfo(data.data);
+      } catch (err) {
+          setError(err.message);
+      } finally {
+          setLoading(false);
+      }
+  };
 
     const updateUser = async (userData, uid) => {
         try {
@@ -93,6 +114,8 @@ export const UserProvider = () => {
         loading,
         error,
         fetchAllUsers,
+        fetchUserInfo,
+        userInfo,
         updateUser,
         addUserNetwork,
         deleteUser
