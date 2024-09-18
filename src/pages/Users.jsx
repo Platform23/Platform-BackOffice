@@ -6,6 +6,7 @@ import UserList from '../components/userManagement/UserList';
 import { UserProvider } from '../components/hooks/UserProvider';
 
 const Users = () => {
+  const { connUser, getUserSession } = UserProvider();
   const { allUsers, fetchAllUsers } = UserProvider();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -13,6 +14,7 @@ const Users = () => {
 
   useEffect(() => {
     fetchAllUsers(); // Fetch the networks when the component mounts
+    getUserSession();
   }, []);
   
   
@@ -28,7 +30,13 @@ const Users = () => {
       >
           Utilisateurs
       </Typography>
-      <NewUserBtn />
+
+      {connUser.role !== 2 && (
+        <>  
+          <NewUserBtn />
+        </>
+      )}
+
       {loading ? (
           <Typography>Loading...</Typography>
         ) : error ? (
@@ -36,6 +44,7 @@ const Users = () => {
         ) : (
           <UserList 
             users={allUsers}
+            session={connUser}
           />
         )}
       

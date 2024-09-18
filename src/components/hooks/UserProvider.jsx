@@ -4,6 +4,7 @@ import { API_BASE_URL } from '../../utils/Constant';
 
 
 export const UserProvider = () => {
+    const [connUser, setConnUser] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [userInfo, setUserInfo] = useState([]);
     const [user, setUser] = useState([]);
@@ -12,6 +13,26 @@ export const UserProvider = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+
+    const getUserSession = async () => {
+      setLoading(true);
+      try {
+          const response = await fetch(`${API_BASE_URL}/me`, {
+              method: "GET",
+              credentials: 'include',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+          });
+
+          const data = await handleResponse(response);
+          setConnUser(data.data);
+      } catch (err) {
+          setError(err.message);
+      } finally {
+          setLoading(false);
+      }
+    };
 
     const fetchAllUsers = async () => {
         setLoading(true);
@@ -108,6 +129,8 @@ export const UserProvider = () => {
       };
 
     return {
+        getUserSession,
+        connUser,
         allUsers,
         userToNetwork,
         user,

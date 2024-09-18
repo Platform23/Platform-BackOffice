@@ -52,6 +52,7 @@ export const subjects = [
 
 export const userRole = [
     { value: 1, label: "Utilisateur", },
+    { value: 2, label: "Mentor", },
     { value: 3, label: "Administrateur", },
 ]
 

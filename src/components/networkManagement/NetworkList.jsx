@@ -11,7 +11,7 @@ import DeleteNetworkDialog from '../dialogs/DeleteNetworkDialog';
 import AddUserToNetwork from '../dialogs/AddUserToNetwork';
 import ShowNetworkUsers from '../dialogs/ShowNetworkUsersDialog';
 
-const NetworkList = ({networks}) => {
+const NetworkList = ({session,networks}) => {
 
     const [selectedNetwork, setSelectedNetwork] = useState(null);
     const [dialogType, setDialogType] = useState(null);
@@ -45,18 +45,25 @@ const NetworkList = ({networks}) => {
                 <IconButton color="primary" onClick={() => handleOpenDialog(network, 'view')}>
                   <VisibilityIcon />
                 </IconButton>
-                <IconButton color="secondary" onClick={() => handleOpenDialog(network, 'edit')}>
-                  <EditIcon />
-                </IconButton>
                 <IconButton color="success" onClick={() => handleOpenDialog(network, 'add')}>
                   <PersonAddAlt1Icon />
                 </IconButton>
                 <IconButton color="info" onClick={() => handleOpenDialog(network, 'list')}>
                   <FormatListBulletedIcon />
                 </IconButton>
-                <IconButton color="error" onClick={() => handleOpenDialog(network, 'delete')}>
-                  <DeleteIcon />
-                </IconButton>
+
+                {/* Conditionally render edit and delete buttons if user.role is not 2 */}
+                {session.role !== 2 && (
+                  <>
+                    <IconButton color="secondary" onClick={() => handleOpenDialog(network, 'edit')}>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton color="error" onClick={() => handleOpenDialog(network, 'delete')}>
+                      <DeleteIcon />
+                    </IconButton>
+                    </>
+                )}
+
               </TableCell>
             </TableRow>
           ))}

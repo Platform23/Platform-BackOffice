@@ -4,8 +4,11 @@ import Layout from '../components/Layout';
 import NewNetworkBtn from '../components/networkManagement/NewNetworkBtn';
 import NetworkList from '../components/networkManagement/NetworkList';
 import { useNetworks } from '../components/hooks/NetworkProvider'
+import { UserProvider } from '../components/hooks/UserProvider';
+
 
 const Networks = () => {
+  const { connUser, getUserSession } = UserProvider();
   const { allNetworks, fetchAllNetworks } = useNetworks();
   const [drawerOpen, setDrawerOpen] = useState(false);
   // const [networks, setNetworks] = useState([]);
@@ -38,8 +41,9 @@ const Networks = () => {
 
   useEffect(() => {
     fetchAllNetworks(); // Fetch the networks when the component mounts
+    getUserSession();
   }, []);
-
+  console.log(connUser);
   return (
     <Layout drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen}>
       <Typography 
@@ -52,13 +56,20 @@ const Networks = () => {
       >
           Réseaux
       </Typography>
-      <NewNetworkBtn />
+      
+      {connUser.role !== 2 && (
+        <>  
+          <NewNetworkBtn />
+        </>
+      )}
+
         {loading ? (
           <Typography>Loading...</Typography>
         ) : error ? (
           <Typography color="error">Failed to load networks: {error}</Typography>
         ) : (
           <NetworkList 
+            session={connUser}
             networks={allNetworks}
           />
         )}

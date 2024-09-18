@@ -68,7 +68,7 @@ const SignIn = () => {
             const userData = await login(credentials);
             // console.log(userData)
             // Chech if user is admin
-            if (userData.role !== 3){
+            if (userData.role === 1){
                 setMessage("Accès refusé");
                 setShowMessageModal(true);
                 setLoading(false);

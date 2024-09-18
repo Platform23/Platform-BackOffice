@@ -7,7 +7,7 @@ import ViewUserDialog from '../dialogs/ViewUserDialog';
 import EditUserDialog from '../dialogs/EditUserDialog';
 import DeleteUserDialog from '../dialogs/DeleteUserDialog';
 
-const UserList = ({ users}) => {
+const UserList = ({ users, session}) => {
 
     const [selectedUser, setSelectedUser] = useState(null);
     const [dialogType, setDialogType] = useState(null);
@@ -27,10 +27,10 @@ const UserList = ({ users}) => {
     //   handleCloseDialog();
     // };
 
-    const handleConfirmDelete = () => {
-        console.log('Deleted user' + selectedUser.id);
-        handleCloseDialog();
-    };
+    // const handleConfirmDelete = () => {
+    //     console.log('Deleted user' + selectedUser.id);
+    //     handleCloseDialog();
+    // };
 
 
   return (
@@ -53,12 +53,18 @@ const UserList = ({ users}) => {
                 <IconButton color="primary" onClick={() => handleOpenDialog(user, 'view')}>
                   <VisibilityIcon />
                 </IconButton>
-                <IconButton color="secondary" onClick={() => handleOpenDialog(user, 'edit')}>
-                  <EditIcon />
-                </IconButton>
-                <IconButton color="error" onClick={() => handleOpenDialog(user, 'delete')}>
-                  <DeleteIcon />
-                </IconButton>
+
+                {/* Conditionally render edit and delete buttons if user.role is not 2 */}
+                {session.role !== 2 && (
+                  <>
+                    <IconButton color="secondary" onClick={() => handleOpenDialog(user, 'edit')}>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton color="error" onClick={() => handleOpenDialog(user, 'delete')}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </>
+                )}
               </TableCell>
             </TableRow>
           ))}
